@@ -4,7 +4,7 @@
 ### [Idiomatic 风格](https://github.com/rwldrn/idiomatic.js/tree/master/translations/zh_CN)
 ### [Google JavaScript 编码规范指南](http://wyz.67ge.com/google-js/javascriptguide.xml)
 
-### 无论有多少人在维护，所有在代码仓库中的代码理应看起来像同一个人写的。
+### 基本原则: 无论有多少人在维护，所有在代码仓库中的代码理应看起来像同一个人写的。
 
 ### 下面的清单概括了JS代码编写的一些最佳实践。在项目中所有构建代码都必须遵循这些规则。
 
@@ -36,7 +36,6 @@
  * [Misc](#misc)
  * [Native & Host Objects](#native)
  * [Comments](#comments)
- * [One Language Code](#language)
 
 ------------------------------------------------
 
@@ -54,10 +53,9 @@
       - 去掉空行的空格
       - 提交和对比更具可读性
 
-
 2. <a name="spacing">美化语法</a>
 
-    A. 小括号, 花括号, 换行
+    A. 花括号, 换行
 
     ```javascript
 
@@ -73,15 +71,6 @@
 
     for(var i=0;i<100;i++) someIterativeFn();
 
-    // for循环遍历:
-    for(var i = 0, l = arr.length; i < l; i++){
-        // doSomething here
-    }
-    // 上面的方式优于:
-    for(var i = 0; i < arr.length; i++){
-        // doSomething here
-    }
-    // 前一种方式只会计算一次 arr 的长度，而后一种方式会计算 arr.length + 1 次，效率比较低
     ```
 
 
@@ -176,7 +165,7 @@
 
     F. 行末和空行
 
-    留白会破坏区别并使用变更不可读。考虑包括一个预提交的 hook 自动删除行末和空行中的空格。
+    留白会破坏 diff 并使diff 结果变得更不可读。考虑包括一个预提交的 hook 自动删除行末和空行中的空格。
 
 3. <a name="type">类型检测 (来源于 jQuery Core Style Guidelines)</a>
 
@@ -263,9 +252,7 @@
     // 这意味着你在 if 语句检测 `foo` 有类似于此的逻辑:
 
     if (foo === 1) {
-
       importantTask();
-
     }
 
     // `importantTask()` 将永远不会被执行，即使 `foo` 有一个值 "1"
@@ -282,9 +269,7 @@
     // "number"
 
     if (foo === 1) {
-
       importantTask();
-
     }
 
     // `importantTask()` 将被调用
@@ -581,10 +566,7 @@
 
     ```
 
-
-
 6. <a name="naming">命名</a>
-
 
     A. 你并不是一个人肉 编译器/压缩器，所以尝试去变身为其一。
 
@@ -635,7 +617,6 @@
 
     `dog` 是一个 string
 
-
     // 6.A.3.2
     // 命名 arrays
 
@@ -646,7 +627,6 @@
     // 命名函数、对象、实例，等
 
     camlCase; function 和 var 声明
-
 
     // 6.A.3.4
     // 命名构建器、原型，等
@@ -853,6 +833,16 @@
       }
       return "quux";
     }
+
+    // for循环遍历:
+    for(var i = 0, l = arr.length; i < l; i++){
+        // doSomething here
+    }
+    // 上面的方式优于:
+    for(var i = 0; i < arr.length; i++){
+        // doSomething here
+    }
+    // 前一种方式只会计算一次 arr 的长度，而后一种方式会计算 arr.length + 1 次，效率比较低
 
     ```
 
