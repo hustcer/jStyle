@@ -44,8 +44,6 @@
 
 下面的章节描述的是一个 _合理_ 的现代 JavaScript 开发风格指南，并非硬性规定。其想送出的核心理念是*高度统一的代码风格*（the law of code style consistency）。你为项目所择风格都应为最高准则。作为一个描述放置于你的项目中，并链接到这个文档作为代码风格一致性、可读性和可维护性的保证。
 
-## Idiomatic 风格宣言
-
 1. <a name="whitespace">空白</a>
   - 永远都不要混用空格和Tab。
   - 开始一个项目，在写代码之前，选择软缩进（空格）或者 Tab（作为缩进方式），并将其作为**最高准则**。
@@ -79,7 +77,7 @@
     for(var i = 0, l = arr.length; i < l; i++){
         // doSomething here
     }
-    优于:
+    // 上面的方式优于:
     for(var i = 0; i < arr.length; i++){
         // doSomething here
     }
@@ -87,7 +85,7 @@
     ```
 
 
-    B. 赋值, 声明, 函数 ( 命名函数, 函数表达式, 构建函数 )
+    B. 赋值, 声明, 函数 (命名函数, 函数表达式, 构建函数)
 
     ```javascript
 
@@ -148,36 +146,36 @@
 
     // 2.B.2.1
     // 命名函数声明
-    function foo( arg1, argN ) {
+    function foo(arg1, argN) {
 
     }
 
     // 使用方法
-    foo( arg1, argN );
+    foo(arg1, argN);
 
 
     // 2.B.2.2
     // 命名函数声明
-    function square( number ) {
+    function square(number) {
       return number * number;
     }
 
     // 使用方法
-    square( 10 );
+    square(10);
 
     // 非常不自然的连带传参（continuation passing）风格
-    function square( number, callback ) {
-      callback( number * number );
+    function square(number, callback) {
+      callback(number * number);
     }
 
-    square( 10, function( square ) {
+    square(10, function(square) {
       // 回调内容
     });
 
 
     // 2.B.2.3
     // 函数表达式
-    var square = function( number ) {
+    var square = function(number) {
       // 返回有价值的、相关的内容
       return number * number;
     };
@@ -185,18 +183,18 @@
     // 带标识符的函数表达式
     // 这种首选形式有附加的功能让其可以调用自身
     // 并且在堆栈中有标识符
-    var factorial = function factorial( number ) {
-      if ( number < 2 ) {
+    var factorial = function factorial(number) {
+      if (number < 2) {
         return 1;
       }
 
-      return number * factorial( number-1 );
+      return number * factorial(number-1);
     };
 
 
     // 2.B.2.4
     // 构造函数声明
-    function FooBar( options ) {
+    function FooBar(options) {
 
       this.options = options;
     }
@@ -234,7 +232,7 @@
     foo("bar");
 
     // 分组用的小括号内部，没有空格
-    if ( !("foo" in obj) ) {
+    if (!("foo" in obj)) {
 
     }
 
@@ -298,7 +296,7 @@
 
     Array:
 
-        Array.isArray( arrayLikeObject )
+        Array.isArray(arrayLikeObject)
         (如果可能的话)
 
     Node:
@@ -326,7 +324,7 @@
       属性:
 
         object.prop === undefined
-        object.hasOwnProperty( prop )
+        object.hasOwnProperty(prop)
         "prop" in object
 
     B. 转换类型（强制类型，Coerced Types）
@@ -360,7 +358,7 @@
     // 如果你现在测试 `typeof foo`, 结果将是 `string`
     // 这意味着你在 if 语句检测 `foo` 有类似于此的逻辑:
 
-    if ( foo === 1 ) {
+    if (foo === 1) {
 
       importantTask();
 
@@ -379,7 +377,7 @@
     // typeof foo;
     // "number"
 
-    if ( foo === 1 ) {
+    if (foo === 1) {
 
       importantTask();
 
@@ -478,7 +476,7 @@
     // 采用明确的方案来比较返回的值
     // 如 indexOf：
 
-    if ( array.indexOf( "a" ) >= 0 ) {
+    if (array.indexOf("a") >= 0) {
       // ...
     }
     ```
@@ -489,7 +487,7 @@
 
     var num = 2.5;
 
-    parseInt( num, 10 );
+    parseInt(num, 10);
 
     // 等价于...
 
@@ -506,7 +504,7 @@
 
     var neg = -2.5;
 
-    parseInt( neg, 10 );
+    parseInt(neg, 10);
 
     // 等价于...
 
@@ -529,63 +527,63 @@
 
     // 4.1.1
     // 当只是判断一个 array 是否有长度，相对于使用这个:
-    if ( array.length > 0 ) ...
+    if (array.length > 0) ...
 
     // ...判断真伪, 请使用这种:
-    if ( array.length ) ...
+    if (array.length) ...
 
 
     // 4.1.2
     // 当只是判断一个 array 是否为空，相对于使用这个:
-    if ( array.length === 0 ) ...
+    if (array.length === 0) ...
 
     // ...判断真伪, 请使用这种:
-    if ( !array.length ) ...
+    if (!array.length) ...
 
 
     // 4.1.3
     // 当只是判断一个 string 是否为空，相对于使用这个:
-    if ( string !== "" ) ...
+    if (string !== "") ...
 
     // ...判断真伪, 请使用这种:
-    if ( string ) ...
+    if (string) ...
 
 
     // 4.1.4
     // 当只是判断一个 string 是为空，相对于使用这个:
-    if ( string === "" ) ...
+    if (string === "") ...
 
     // ...判断真伪, 请使用这种:
-    if ( !string ) ...
+    if (!string) ...
 
 
     // 4.1.5
     // 当只是判断一个引用是为真，相对于使用这个:
-    if ( foo === true ) ...
+    if (foo === true) ...
 
     // ...判断只需像你所想，享受内置功能的好处:
-    if ( foo ) ...
+    if (foo) ...
 
 
     // 4.1.6
     // 当只是判断一个引用是为假，相对于使用这个:
-    if ( foo === false ) ...
+    if (foo === false) ...
 
     // ...使用叹号将其转换为真
-    if ( !foo ) ...
+    if (!foo) ...
 
     // ...需要注意的是：这个将会匹配 0, "", null, undefined, NaN
     // 如果你 _必须_ 是布尔类型的 false，请这样用：
-    if ( foo === false ) ...
+    if (foo === false) ...
 
 
     // 4.1.7
     // 如果想计算一个引用可能是 null 或者 undefined，但并不是 false, "" 或者 0,
     // 相对于使用这个：
-    if ( foo === null || foo === undefined ) ...
+    if (foo === null || foo === undefined) ...
 
     // ...享受 == 类型强制转换的好处，像这样:
-    if ( foo == null ) ...
+    if (foo == null) ...
 
     // 谨记，使用 == 将会令 `null` 匹配 `null` 和 `undefined`
     // 但不是 `false`，"" 或者 0
@@ -634,7 +632,7 @@
     // 5.1.1
     // 一个实用的模块
 
-    (function( global ) {
+    (function(global) {
       var Module = (function() {
 
         var data = "secret";
@@ -654,9 +652,9 @@
             // 得到 `data` 的值
             return data;
           },
-          setData: function( value ) {
+          setData: function(value) {
             // 返回赋值过的 `data` 的值
-            return ( data = value );
+            return (data = value);
           }
         };
       })();
@@ -666,7 +664,7 @@
       // 把你的模块变成全局对象
       global.Module = Module;
 
-    })( this );
+    })(this);
 
     ```
 
@@ -675,9 +673,9 @@
     // 5.2.1
     // 一个实用的构建函数
 
-    (function( global ) {
+    (function(global) {
 
-      function Ctor( foo ) {
+      function Ctor(foo) {
 
         this.foo = foo;
 
@@ -688,21 +686,21 @@
         return this.foo;
       };
 
-      Ctor.prototype.setFoo = function( val ) {
-        return ( this.foo = val );
+      Ctor.prototype.setFoo = function(val) {
+        return (this.foo = val);
       };
 
 
       // 不使用 `new` 来调用构建函数，你可能会这样做：
-      var ctor = function( foo ) {
-        return new Ctor( foo );
+      var ctor = function(foo) {
+        return new Ctor(foo);
       };
 
 
       // 把我们的构建函数变成全局对象
       global.ctor = ctor;
 
-    })( this );
+    })(this);
 
     ```
 
@@ -736,8 +734,8 @@
     // 6.A.2.1
     // 改善过命名的示例代码
 
-    function query( selector ) {
-      return document.querySelectorAll( selector );
+    function query(selector) {
+      return document.querySelectorAll(selector);
     }
 
     var idx = 0,
@@ -745,8 +743,8 @@
       matches = query("#foo"),
       length = matches.length;
 
-    for ( ; idx < length; idx++ ) {
-      elements.push( matches[ idx ] );
+    for (; idx < length; idx++) {
+      elements.push(matches[ idx ]);
     }
 
     ```
@@ -799,22 +797,22 @@
 
     B. 面对 `this`
 
-    除使用众所周知的 `call` 和 `apply` 外，总是优先选择 `.bind( this )` 或者一个功能上等价于它的。创建 `BoundFunction` 声明供后续调用，当没有更好的选择时才使用别名。
+    除使用众所周知的 `call` 和 `apply` 外，总是优先选择 `.bind(this)` 或者一个功能上等价于它的。创建 `BoundFunction` 声明供后续调用，当没有更好的选择时才使用别名。
 
     ```javascript
 
     // 6.B.1
-    function Device( opts ) {
+    function Device(opts) {
 
       this.value = null;
 
       // 新建一个异步的 stream，这个将被持续调用
-      stream.read( opts.path, function( data ) {
+      stream.read(opts.path, function(data) {
 
         // 使用 stream 返回 data 最新的值，更新实例的值
         this.value = data;
 
-      }.bind(this) );
+      }.bind(this));
 
       // 控制事件触发的频率
       setInterval(function() {
@@ -822,7 +820,7 @@
         // 发出一个被控制的事件
         this.emit("event");
 
-      }.bind(this), opts.freq || 100 );
+      }.bind(this), opts.freq || 100);
     }
 
     // 假设我们已继承了事件发送器（EventEmitter） ;)
@@ -836,57 +834,57 @@
     // 6.B.2
 
     // 示例：lodash/underscore，_.bind()
-    function Device( opts ) {
+    function Device(opts) {
 
       this.value = null;
 
-      stream.read( opts.path, _.bind(function( data ) {
+      stream.read(opts.path, _.bind(function(data) {
 
         this.value = data;
 
-      }, this) );
+      }, this));
 
       setInterval(_.bind(function() {
 
         this.emit("event");
 
-      }, this), opts.freq || 100 );
+      }, this), opts.freq || 100);
     }
 
     // 示例：jQuery.proxy
-    function Device( opts ) {
+    function Device(opts) {
 
       this.value = null;
 
-      stream.read( opts.path, jQuery.proxy(function( data ) {
+      stream.read(opts.path, jQuery.proxy(function(data) {
 
         this.value = data;
 
-      }, this) );
+      }, this));
 
-      setInterval( jQuery.proxy(function() {
+      setInterval(jQuery.proxy(function() {
 
         this.emit("event");
 
-      }, this), opts.freq || 100 );
+      }, this), opts.freq || 100);
     }
 
     // 示例：dojo.hitch
-    function Device( opts ) {
+    function Device(opts) {
 
       this.value = null;
 
-      stream.read( opts.path, dojo.hitch( this, function( data ) {
+      stream.read(opts.path, dojo.hitch(this, function(data) {
 
         this.value = data;
 
-      }) );
+      }));
 
-      setInterval( dojo.hitch( this, function() {
+      setInterval(dojo.hitch(this, function() {
 
         this.emit("event");
 
-      }), opts.freq || 100 );
+      }), opts.freq || 100);
     }
 
     ```
@@ -897,12 +895,12 @@
 
     // 6.B.3
 
-    function Device( opts ) {
+    function Device(opts) {
       var self = this;
 
       this.value = null;
 
-      stream.read( opts.path, function( data ) {
+      stream.read(opts.path, function(data) {
 
         self.value = data;
 
@@ -912,7 +910,7 @@
 
         self.emit("event");
 
-      }, opts.freq || 100 );
+      }, opts.freq || 100);
     }
 
     ```
@@ -930,13 +928,13 @@
 
     obj = { f: "foo", b: "bar", q: "qux" };
 
-    Object.keys( obj ).forEach(function( key ) {
+    Object.keys(obj).forEach(function(key) {
 
       // |this| 现在是 `obj`
 
-      console.log( this[ key ] );
+      console.log(this[ key ]);
 
-    }, obj ); // <-- 最后的参数是 `thisArg`
+    }, obj); // <-- 最后的参数是 `thisArg`
 
     // 打印出来...
 
@@ -964,7 +962,7 @@
     // 7.A.1.1
     // switch 语句示例
 
-    switch( foo ) {
+    switch(foo) {
       case "alpha":
         alpha();
         break;
@@ -1005,7 +1003,7 @@
       var args, key, delegate;
 
       // 把 `argument` 转换成数组
-      args = [].slice.call( arguments );
+      args = [].slice.call(arguments);
 
       // 从 `argument` 中抽出最前一个值
       key = args.shift();
@@ -1014,19 +1012,19 @@
       delegate = cases._default;
 
       // 从对象中对方法进行委派操作
-      if ( cases.hasOwnProperty( key ) ) {
+      if (cases.hasOwnProperty(key)) {
         delegate = cases[ key ];
       }
 
       // arg 的作用域可以设置成特定值，
       // 这种情况下，|null| 就可以了
-      return delegate.apply( null, args );
+      return delegate.apply(null, args);
     };
 
     // 7.A.1.3
     // 使用 7.A.1.2 中的 API:
 
-    delegator( "alpha", 1, 2, 3, 4, 5 );
+    delegator("alpha", 1, 2, 3, 4, 5);
     // [ "Alpha", 5 ]
 
     // 当然 `case` key 的值可以轻松地换成任意值
@@ -1036,7 +1034,7 @@
     // 有没有可能是某种形式的输入?
     someUserInput = 9;
 
-    if ( someUserInput > 10 ) {
+    if (someUserInput > 10) {
       caseKey = "alpha";
     } else {
       caseKey = "beta";
@@ -1048,7 +1046,7 @@
 
     // 然后...
 
-    delegator( caseKey, someUserInput );
+    delegator(caseKey, someUserInput);
     // [ "Beta", 1 ]
 
     // 当然还可以这样搞...
@@ -1065,10 +1063,10 @@
 
     // 7.B.1.1
     // 不好:
-    function returnLate( foo ) {
+    function returnLate(foo) {
       var ret;
 
-      if ( foo ) {
+      if (foo) {
         ret = "foo";
       } else {
         ret = "quux";
@@ -1078,9 +1076,9 @@
 
     // 好:
 
-    function returnEarly( foo ) {
+    function returnEarly(foo) {
 
-      if ( foo ) {
+      if (foo) {
         return "foo";
       }
       return "quux";
