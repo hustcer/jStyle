@@ -142,102 +142,6 @@
     }
     ```
 
-    ```javascript
-
-    // 2.B.2.1
-    // 命名函数声明
-    function foo(arg1, argN) {
-
-    }
-
-    // 使用方法
-    foo(arg1, argN);
-
-
-    // 2.B.2.2
-    // 命名函数声明
-    function square(number) {
-      return number * number;
-    }
-
-    // 使用方法
-    square(10);
-
-    // 非常不自然的连带传参（continuation passing）风格
-    function square(number, callback) {
-      callback(number * number);
-    }
-
-    square(10, function(square) {
-      // 回调内容
-    });
-
-
-    // 2.B.2.3
-    // 函数表达式
-    var square = function(number) {
-      // 返回有价值的、相关的内容
-      return number * number;
-    };
-
-    // 带标识符的函数表达式
-    // 这种首选形式有附加的功能让其可以调用自身
-    // 并且在堆栈中有标识符
-    var factorial = function factorial(number) {
-      if (number < 2) {
-        return 1;
-      }
-
-      return number * factorial(number-1);
-    };
-
-
-    // 2.B.2.4
-    // 构造函数声明
-    function FooBar(options) {
-
-      this.options = options;
-    }
-
-    // 使用方法
-    var fooBar = new FooBar({ a: "alpha" });
-
-    fooBar.options;
-    // { a: "alpha" }
-
-    ```
-
-
-    C. 异常, 细节
-
-    ```javascript
-
-    // 2.C.1.1
-    // 带回调的函数
-    foo(function() {
-      // 注意：在第一函数调用的小括号和 `function` 处并没有空格
-    });
-
-    // 函数接受 `array` 作为参数，没有空格
-    foo([ "alpha", "beta" ]);
-
-    // 2.C.1.2
-    // 函数接受 `object` 作为参数，没有空格
-    foo({
-      a: "alpha",
-      b: "beta"
-    });
-
-    // 函数接受 `string` 字面量作为参数，没有空格
-    foo("bar");
-
-    // 分组用的小括号内部，没有空格
-    if (!("foo" in obj)) {
-
-    }
-
-    ```
-
     D. 一致性（统一）总是笑到最后的（Consistency Always Wins）
 
     在 2.A-2.C 节，留白作为一个推荐方式被提出，基于单纯的、更高的目的：统一。值得注意的是格式化偏好，像“内部留白”必须是可选的，但在整个项目的源码中必须只存在着一种。
@@ -457,33 +361,6 @@
 
     ```javascript
     // 3.B.2.3
-
-    var array = [ "a", "b", "c" ];
-
-    !!~array.indexOf("a");
-    // true
-
-    !!~array.indexOf("b");
-    // true
-
-    !!~array.indexOf("c");
-    // true
-
-    !!~array.indexOf("d");
-    // false
-
-    // 值得注意的是上述都是 "不必要的聪明"
-    // 采用明确的方案来比较返回的值
-    // 如 indexOf：
-
-    if (array.indexOf("a") >= 0) {
-      // ...
-    }
-    ```
-
-    ```javascript
-    // 3.B.2.3
-
 
     var num = 2.5;
 
@@ -950,114 +827,7 @@
 
     这个部分将要说明的想法和理念都并非教条。相反更鼓励对现存实践保持好奇，以尝试提供完成一般 JavaScript 编程任务的更好方案。
 
-    A. 避免使用 `switch`，现代方法跟踪（method tracing）将会把带有 switch 表达式的函数列为黑名单。
-
-    似乎在最新版本的 Firefox 和 Chrome 都对 `switch` 语句有重大改进。http://jsperf.com/switch-vs-object-literal-vs-module
-
-    值得注意的是，改进可以这里看到:
-    https://github.com/rwldrn/idiomatic.js/issues/13
-
-    ```javascript
-
-    // 7.A.1.1
-    // switch 语句示例
-
-    switch(foo) {
-      case "alpha":
-        alpha();
-        break;
-      case "beta":
-        beta();
-        break;
-      default:
-        // 默认分支
-        break;
-    }
-
-    // 7.A.1.2
-    // 一个可支持组合、重用的方法是使用一个对象来存储 “cases”，
-    // 使用一个 function 来做委派：
-
-    var cases, delegator;
-
-    // 返回值仅作说明用
-    cases = {
-      alpha: function() {
-        // 语句
-        // 一个返回值
-        return [ "Alpha", arguments.length ];
-      },
-      beta: function() {
-        // 语句
-        // 一个返回值
-        return [ "Beta", arguments.length ];
-      },
-      _default: function() {
-        // 语句
-        // 一个返回值
-        return [ "Default", arguments.length ];
-      }
-    };
-
-    delegator = function() {
-      var args, key, delegate;
-
-      // 把 `argument` 转换成数组
-      args = [].slice.call(arguments);
-
-      // 从 `argument` 中抽出最前一个值
-      key = args.shift();
-
-      // 调用默认分支
-      delegate = cases._default;
-
-      // 从对象中对方法进行委派操作
-      if (cases.hasOwnProperty(key)) {
-        delegate = cases[ key ];
-      }
-
-      // arg 的作用域可以设置成特定值，
-      // 这种情况下，|null| 就可以了
-      return delegate.apply(null, args);
-    };
-
-    // 7.A.1.3
-    // 使用 7.A.1.2 中的 API:
-
-    delegator("alpha", 1, 2, 3, 4, 5);
-    // [ "Alpha", 5 ]
-
-    // 当然 `case` key 的值可以轻松地换成任意值
-
-    var caseKey, someUserInput;
-
-    // 有没有可能是某种形式的输入?
-    someUserInput = 9;
-
-    if (someUserInput > 10) {
-      caseKey = "alpha";
-    } else {
-      caseKey = "beta";
-    }
-
-    // 或者...
-
-    caseKey = someUserInput > 10 ? "alpha" : "beta";
-
-    // 然后...
-
-    delegator(caseKey, someUserInput);
-    // [ "Beta", 1 ]
-
-    // 当然还可以这样搞...
-
-    delegator();
-    // [ "Default", 0 ]
-
-
-    ```
-
-    B. 提前返回值提升代码的可读性并且没有太多性能上的差别
+    A. 提前返回值提升代码的可读性并且没有太多性能上的差别
 
     ```javascript
 
@@ -1086,33 +856,12 @@
 
     ```
 
-
-8. <a name="native">原生 & 宿主对象（注：其实一直觉得 Host Objects 真不应该翻译过来，这是就按一般书的写法翻出来吧）</a>
-
-    最基本的原则是:
-
-    ### 不要干任何蠢事，事情总会变好的。
-
-    为了加强这个观念，请观看这个演示:
-
-    #### “一切都被允许: 原生扩展” by Andrew Dupont (JSConf2011, Portland, Oregon)
-
-    <iframe src="http://blip.tv/play/g_Mngr6LegI.html" width="480" height="346" frameborder="0" allowfullscreen></iframe><embed type="application/x-shockwave-flash" src="http://a.blip.tv/api.swf#g_Mngr6LegI" style="display:none"></embed>
-
-    http://blip.tv/jsconf/jsconf2011-andrew-dupont-everything-is-permitted-extending-built-ins-5211542
-
-
 9. <a name="comments">注释</a>
 
   * 单行注释放于代码上方为首选
   * 多行也可以
   * 行末注释应被避免!
   * JSDoc 的方式也不错，但需要比较多的时间
-
-
-10. <a name="language">单用一门语言</a>
-
-    无论是什么语言程序维护者（或团队）规定使用何种语言，程序都应只用同一种语言书写。
 
 ## 附录
 
