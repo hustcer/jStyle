@@ -27,6 +27,10 @@
 * 代码缩进使用4个空格缩进替代 tab 缩进
 * JS/CSS 最终发布到产品中的时候需要被压缩，以减小静态资源文件大小，提升页面加载速度
 * JS代码提交之前需要通过jslint检查，不能存在明显问题
+* JS里声明变量必须加上 var 关键字.
+* JS里使用单引号 (') 优于双引号 (").
+* 变量比较的时候总是判断最好、最精确的值，推荐使用'==='少用'=='(可以参考[jQuery](https://github.com/jquery/jquery/blob/master/src/core.js)代码里面, 可以看到只有在'== null'的时候才可能使用'=='，其他情况一律使用的是'===').
+* JS里变量命名规范使用 functionNamesLikeThis, variableNamesLikeThis, ClassNamesLikeThis, EnumNamesLikeThis, methodNamesLikeThis, 和 SYMBOLIC_CONSTANTS_LIKE_THIS.
 * JS文件名应该使用小写字符, 以避免在有些系统平台上不识别大小写的命名方式. 文件名以.js结尾, 不要包含除 - 和 _ 外的标点符号(使用 - 优于 _).
 * 如果编辑器支持在文件保存的时候自动删除行末和空行中的空格
 * 新增、修改、查看等表单在 popup的时候需要重新初始化清除原来数据
@@ -126,10 +130,10 @@ module.exports = function(grunt) {
         compress: {
           main: {
             options: {
-              archive: 'release/executable.zip'       // make a zipfile
+              archive: 'release/executable.zip'         // make a zipfile
             },
             files: [
-              // {src: ['release/**'], dest: 'release/'},                           // includes files in path and its subdirs
+              // {src: ['release/**'], dest: 'release/'},                        // includes files in path and its subdirs
               {expand: true, cwd: 'release/', src: ['**'], dest: 'executable/'}  // makes all src relative to cwd
             ]
           }
