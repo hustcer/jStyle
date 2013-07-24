@@ -1366,9 +1366,7 @@ function listHtml(items) {
 
 #### 对比运算
 
-
-    ```javascript
-
+```javascript
     // 当只是判断一个 array 是否有长度，相对于使用这个:
     if (array.length > 0) ...
 
@@ -1419,17 +1417,13 @@ function listHtml(items) {
     // 谨记，使用 == 将会令 `null` 匹配 `null` 和 `undefined`
     // 但不是 `false`，"" 或者 0
     null == undefined
+```
 
-    ```
+总是判断最好、最精确的值，上述是指南而非教条。
 
-    总是判断最好、最精确的值，上述是指南而非教条。
-
-    ```javascript
-
+```javascript
     // 类型转换和对比运算说明
-
     // 首次 `===`，`==` 次之 (除非需要松散类型的对比)
-
     // `===` 总不做类型转换，这意味着:
 
     "1" === 1;
@@ -1450,8 +1444,7 @@ function listHtml(items) {
 
     // 伪:
     "", 0, null, undefined, NaN, void 0
-
-    ```
+```
 
 #### Misc
 
