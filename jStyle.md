@@ -930,9 +930,9 @@ Decision:
   ```
 这段代码会发生些什么诡异事呢?
 
-报 JavaScript 错误 - 例子1上的语句会解释成, 一个函数带一匿名函数作为参数而被调用, 返回42后, 又一次被"调用", 这就导致了错误.
-例子2中, 你很可能会在运行时遇到 'no such property in undefined' 错误, 原因是代码试图这样 x[ffVersion][isIE]() 执行.
-当 resultOfOperation() 返回非 NaN 时, 就会调用die, 其结果也会赋给 THINGS_TO_EAT.
+1. 报 JavaScript 错误 - 例子1上的语句会解释成, 一个函数带一匿名函数作为参数而被调用, 返回42后, 又一次被"调用", 这就导致了错误.
+1. 例子2中, 你很可能会在运行时遇到 'no such property in undefined' 错误, 原因是代码试图这样 x[ffVersion][isIE]() 执行.
+1. 当 resultOfOperation() 返回非 NaN 时, 就会调用die, 其结果也会赋给 THINGS_TO_EAT.
 为什么?
 
 JavaScript 的语句以分号作为结束符, 除非可以非常准确推断某结束位置才会省略分号. 上面的几个例子产出错误, 均是在语句中声明了函数/对象/数组直接量, 但 闭括号('}'或']')并不足以表示该语句的结束. 在 JavaScript 中, 只有当语句后的下一个符号是后缀或括号运算符时, 才会认为该语句的结束.
@@ -944,15 +944,18 @@ JavaScript 的语句以分号作为结束符, 除非可以非常准确推断某�
 不要在块内声明一个函数
 不要写成:
 
-if (x) {
-  function foo() {}
-}
+```javascript
+  if (x) {
+    function foo() {}
+  }
+```
 虽然很多 JS 引擎都支持块内声明函数, 但它不属于 ECMAScript 规范 (见 ECMA-262, 第13和14条). 各个浏览器糟糕的实现相互不兼容, 有些也与未来 ECMAScript 草案相违背. ECMAScript 只允许在脚本的根语句或函数中声明函数. 如果确实需要在块中定义函数, 建议使用函数表达式来初始化变量:
 
-if (x) {
-  var foo = function() {}
-}
-
+```javascript
+  if (x) {
+    var foo = function() {}
+  }
+```
 ### 标准特性
 
 总是优于非标准特性.
@@ -963,18 +966,22 @@ if (x) {
 不要
 没有任何理由去封装基本类型, 另外还存在一些风险:
 
-var x = new Boolean(false);
-if (x) {
-  alert('hi');  // Shows 'hi'.
-}
+```javascript
+  var x = new Boolean(false);
+  if (x) {
+    alert('hi');  // Shows 'hi'.
+  }
+```
 除非明确用于类型转换, 其他情况请千万不要这样做！
 
-var x = Boolean(0);
-if (x) {
-  alert('hi');  // This will never be alerted.
-}
-typeof Boolean(0) == 'boolean';
-typeof new Boolean(0) == 'object';
+```javascript
+  var x = Boolean(0);
+  if (x) {
+    alert('hi');  // This will never be alerted.
+  }
+  typeof Boolean(0) == 'boolean';
+  typeof new Boolean(0) == 'object';
+```
 有时用作 number, string 或 boolean时, 类型的转换会非常实用.
 
 
@@ -985,18 +992,23 @@ typeof new Boolean(0) == 'object';
 
 有一点需要牢记, 闭包保留了一个指向它封闭作用域的指针, 所以, 在给 DOM 元素附加闭包时, 很可能会产生循环引用, 进一步导致内存泄漏. 比如下面的代码:
 
-function foo(element, a, b) {
-  element.onclick = function() { /* uses a and b */ };
-}
+```javascript
+  function foo(element, a, b) {
+    element.onclick = function() { /* uses a and b */ };
+  }
+```
 这里, 即使没有使用 element, 闭包也保留了 element, a 和 b 的引用, . 由于 element 也保留了对闭包的引用, 这就产生了循环引用, 这就不能被 GC 回收. 这种情况下, 可将代码重构为:
 
-function foo(element, a, b) {
-  element.onclick = bar(a, b);
-}
+```javascript
+  function foo(element, a, b) {
+    element.onclick = bar(a, b);
+  }
 
-function bar(a, b) {
-  return function() { /* uses a and b */ }
-}
+  function bar(a, b) {
+    return function() { /* uses a and b */ }
+  }
+
+```
 
 ### eval()
 
@@ -1005,44 +1017,52 @@ eval() 会让程序执行的比较混乱, 当 eval() 里面包含用户输入的
 
 解析序列化串是指将字节流转换成内存中的数据结构. 比如, 你可能会将一个对象输出成文件形式:
 
-users = [
-  {
-    name: 'Eric',
-    id: 37824,
-    email: 'jellyvore@myway.com'
-  },
-  {
-    name: 'xtof',
-    id: 31337,
-    email: 'b4d455h4x0r@google.com'
-  },
-  ...
-];
+```javascript
+  users = [
+    {
+      name: 'Eric',
+      id: 37824,
+      email: 'jellyvore@myway.com'
+    },
+    {
+      name: 'xtof',
+      id: 31337,
+      email: 'b4d455h4x0r@google.com'
+    },
+    ...
+  ];
+```
+
 很简单地调用 eval 后, 把表示成文件的数据读取回内存中.
 
 类似的, eval() 对 RPC 响应值进行解码. 例如, 你在使用 XMLHttpRequest 发出一个 RPC 请求后, 通过 eval () 将服务端的响应文本转成 JavaScript 对象:
 
-var userOnline = false;
-var user = 'nusrat';
-var xmlhttp = new XMLHttpRequest();
-xmlhttp.open('GET', 'http://chat.google.com/isUserOnline?user=' + user, false);
-xmlhttp.send('');
-// Server returns:
-// userOnline = true;
-if (xmlhttp.status == 200) {
-  eval(xmlhttp.responseText);
-}
-// userOnline is now true.
+```javascript
+  var userOnline = false;
+  var user = 'nusrat';
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.open('GET', 'http://chat.google.com/isUserOnline?user=' + user, false);
+  xmlhttp.send('');
+  // Server returns:
+  // userOnline = true;
+  if (xmlhttp.status == 200) {
+    eval(xmlhttp.responseText);
+  }
+  // userOnline is now true.
+```
 
 ### with() {}
 
 不要使用
 使用 with 让你的代码在语义上变得不清晰. 因为 with 的对象, 可能会与局部变量产生冲突, 从而改变你程序原本的用义. 下面的代码是干嘛的?
 
-with (foo) {
-  var x = 3;
-  return x;
-}
+```javascript
+  with (foo) {
+    var x = 3;
+    return x;
+  }
+```
+
 答案: 任何事. 局部变量 x 可能被 foo 的属性覆盖, 当它定义一个 setter 时, 在赋值 3 后会执行很多其他代码. 所以不要使用 with 语句.
 
 ### this
@@ -1060,47 +1080,52 @@ this 的语义很特别. 有时它引用一个全局对象(大多数情况下), 
 只用于 object/map/hash 的遍历
 对 Array 用 for-in 循环有时会出错. 因为它并不是从 0 到 length - 1 进行遍历, 而是所有出现在对象及其原型链的键值. 下面就是一些失败的使用案例:
 
-function printArray(arr) {
-  for (var key in arr) {
-    print(arr[key]);
+```javascript
+  function printArray(arr) {
+    for (var key in arr) {
+      print(arr[key]);
+    }
   }
-}
 
-printArray([0,1,2,3]);  // This works.
+  printArray([0,1,2,3]);  // This works.
 
-var a = new Array(10);
-printArray(a);  // This is wrong.
+  var a = new Array(10);
+  printArray(a);  // This is wrong.
 
-a = document.getElementsByTagName('*');
-printArray(a);  // This is wrong.
+  a = document.getElementsByTagName('*');
+  printArray(a);  // This is wrong.
 
-a = [0,1,2,3];
-a.buhu = 'wine';
-printArray(a);  // This is wrong again.
+  a = [0,1,2,3];
+  a.buhu = 'wine';
+  printArray(a);  // This is wrong again.
 
-a = new Array;
-a[3] = 3;
-printArray(a);  // This is wrong again.
-而遍历数组通常用最普通的 for 循环.
+  a = new Array;
+  a[3] = 3;
+  printArray(a);  // This is wrong again.
+  而遍历数组通常用最普通的 for 循环.
 
-function printArray(arr) {
-  var l = arr.length;
-  for (var i = 0; i < l; i++) {
-    print(arr[i]);
+  function printArray(arr) {
+    var l = arr.length;
+    for (var i = 0; i < l; i++) {
+      print(arr[i]);
+    }
   }
-}
+```
 
 ### 多行字符串
 
 不要使用
 不要这样写长字符串:
 
+```javascript
 var myString = 'A rather long string of English text, an error message \
                 actually that just keeps going and going -- an error \
                 message to make the Energizer bunny blush (right through \
                 those Schwarzenegger shades)! Where was I? Oh yes, \
                 you\'ve got an error and all the extraneous whitespace is \
                 just gravy.  Have a nice day.';
+```
+
 在编译时, 不能忽略行起始位置的空白字符; "\" 后的空白字符会产生奇怪的错误; 虽然大多数脚本引擎支持这种写法, 但它不是 ECMAScript 的标准规范.
 
 ### Array 和 Object 直接量
@@ -1109,46 +1134,54 @@ var myString = 'A rather long string of English text, an error message \
 
 使用 Array 构造器很容易因为传参不恰当导致错误.
 
-// Length is 3.
-var a1 = new Array(x1, x2, x3);
+```javascript
+  // Length is 3.
+  var a1 = new Array(x1, x2, x3);
 
-// Length is 2.
-var a2 = new Array(x1, x2);
+  // Length is 2.
+  var a2 = new Array(x1, x2);
 
-// If x1 is a number and it is a natural number the length will be x1.
-// If x1 is a number but not a natural number this will throw an exception.
-// Otherwise the array will have one element with x1 as its value.
-var a3 = new Array(x1);
+  // If x1 is a number and it is a natural number the length will be x1.
+  // If x1 is a number but not a natural number this will throw an exception.
+  // Otherwise the array will have one element with x1 as its value.
+  var a3 = new Array(x1);
 
-// Length is 0.
-var a4 = new Array();
+  // Length is 0.
+  var a4 = new Array();
+```
 如果传入一个参数而不是2个参数, 数组的长度很有可能就不是你期望的数值了.
 
 为了避免这些歧义, 我们应该使用更易读的直接量来声明.
 
-var a = [x1, x2, x3];
-var a2 = [x1, x2];
-var a3 = [x1];
-var a4 = [];
+```javascript
+  var a = [x1, x2, x3];
+  var a2 = [x1, x2];
+  var a3 = [x1];
+  var a4 = [];
+```
 虽然 Object 构造器没有上述类似的问题, 但鉴于可读性和一致性考虑, 最好还是在字面上更清晰地指明.
 
-var o = new Object();
+```javascript
+  var o = new Object();
 
-var o2 = new Object();
-o2.a = 0;
-o2.b = 1;
-o2.c = 2;
-o2['strange key'] = 3;
+  var o2 = new Object();
+  o2.a = 0;
+  o2.b = 1;
+  o2.c = 2;
+  o2['strange key'] = 3;
+```
 应该写成:
 
-var o = {};
+```javascript
+  var o = {};
 
-var o2 = {
-  a: 0,
-  b: 1,
-  c: 2,
-  'strange key': 3
-};
+  var o2 = {
+    a: 0,
+    b: 1,
+    c: 2,
+    'strange key': 3
+  };
+```
 
 ###　不要修改内置对象的原型
 
@@ -1259,6 +1292,7 @@ myapp.main = function() {
 
 ### 除非是枚举类型, 不然不要访问别名变量的属性.
 
+```javascript
 /** @enum {string} */
 some.long.namespace.Fruit = {
   APPLE: 'a',
@@ -1278,6 +1312,7 @@ myapp.main = function() {
   var MyClass = some.long.namespace.MyClass;
   MyClass.staticHelper(null);
 };
+```
 不要在全局范围内创建别名, 而仅在函数块作用域中使用.
 
 ### 文件名
@@ -1305,20 +1340,26 @@ myapp.main = function() {
 
 分号会被隐式插入到代码中, 所以你务必在同一行上插入大括号. 例如:
 
-if (something) {
-  // ...
-} else {
-  // ...
-}
+```javascript
+  if (something) {
+    // ...
+  } else {
+    // ...
+  }
+```
 
 ### 数组和对象的初始化
 
 如果初始值不是很长, 就保持写在单行上:
 
+```javascript
 var arr = [1, 2, 3];  // No space after [ or before ].
 var obj = {a: 1, b: 2, c: 3};  // No space after { or before }.
+```
+
 初始值占用多行时, 缩进2个空格.
 
+```javascript
 // Object initializer.
 var inset = {
   top: 10,
@@ -1343,11 +1384,13 @@ goog.dom.createDom(goog.dom.TagName.DIV, {
   className: 'some-css-class',
   style: 'display:none'
 }, 'Hello, world!');
+```
 
 ### 函数参数
 
 尽量让函数参数在同一行上. 如果一行超过 80 字符, 每个参数独占一行, 并以4个空格缩进, 或者与括号对齐, 以提高可读性. 尽可能不要让每行超过80个字符. 比如下面这样:
 
+```javascript
 // Four-space, wrap at 80.  Works with very long function names, survives
 // renaming without reindenting, low on space.
 goog.foo.bar.doThingThatIsVeryDifficultToExplain = function(
@@ -1381,11 +1424,13 @@ function bar(veryDescriptiveArgumentNumberOne,
              artichokeDescriptorAdapterIterator) {
   // ...
 }
+```
 
 ### 传递匿名函数
 
 如果参数中有匿名函数, 函数体从调用该函数的左边开始缩进2个空格, 而不是从 function 这个关键字开始. 这让匿名函数更加易读 (不要增加很多没必要的缩进让函数体显示在屏幕的右侧).
 
+```javascript
 var names = items.map(function(item) {
                         return item.name;
                       });
@@ -1397,11 +1442,13 @@ prefix.something.reallyLongFunctionName('whatever', function(a1, a2) {
     andNowForSomethingCompletelyDifferent(a2.parrot);
   }
 });
+```
 
 ###更多的缩进
 
 事实上, 除了 初始化数组和对象 , 和传递匿名函数外, 所有被拆开的多行文本要么选择与之前的表达式左对齐, 要么以4个(而不是2个)空格作为一缩进层次.
 
+```javascript
 someWonderfulHtml = '' +
                     getEvenMoreHtml(someReallyInterestingValues, moreValues,
                                     evenMoreParams, 'a duck', true, 72,
@@ -1425,11 +1472,12 @@ if (searchableCollection(allYourStuff).contains(theStuffYouWant) &&
                                         client.alwaysTryAmbientAnyways()) {
   ambientNotification.activate();
 }
+```
 
 ### 空行
 
 使用空行来划分一组逻辑上相关联的代码片段.
-
+```javascript
 doSomethingTo(x);
 doSomethingElseTo(x);
 andThen(x);
@@ -1437,11 +1485,13 @@ andThen(x);
 nowDoSomethingWith(y);
 
 andNowWith(z);
+```
 
 ### 二元和三元操作符
 
 操作符始终跟随着前行, 这样就不用顾虑分号的隐式插入问题. 如果一行实在放不下, 还是按照上述的缩进风格来换行.
 
+```javascript
 var x = a ? b : c;  // All on one line if it will fit.
 
 // Indentation +4 is OK.
@@ -1452,6 +1502,7 @@ var y = a ?
 var z = a ?
         moreComplicatedB :
         moreComplicatedC;
+```
 
 ### 括号
 
@@ -1477,6 +1528,7 @@ JSDoc 的两个标记 @private 和 @protected 用来指明类, 函数, 属性的
 
 永远不要为 全局变量, 函数, 构造器加 @protected 标记.
 
+```javascript
 // File 1.
 // AA_PrivateClass_ and AA_init_ are accessible because they are global
 // and in the same file.
@@ -1494,12 +1546,15 @@ function AA_init_() {
 }
 
 AA_init_();
+```
+
 标记为 @private 的属性, 在当前文件中可访问它; 如果是类属性私有, "拥有"该属性的类的所有静态/普通成员也可访问, 但它们不能被不同文件中的子类访问或覆盖.
 
 标记为 @protected 的属性, 在当前文件中可访问它, 如果是类属性保护, 那么"拥有"该属性的类及其子类中的所有静态/普通成员也可访问.
 
 注意: 这与 C++, Java 中的私有和保护不同, 它们是在当前文件中, 检查是否具有访问私有/保护属性的权限, 有权限即可访问, 而不是只能在同一个类或类层次上. 而 C++ 中的私有属性不能被子类覆盖. (C++/Java 中的私有/保护是指作用域上的可访问性, 在可访问性上的限制. JS 中是在限制在作用域上. PS: 可见性是与作用域对应)
 
+```javascript
 // File 1.
 
 /** @constructor */
@@ -1547,6 +1602,7 @@ AA_SubClass.prototype.method = function() {
   // Legal access of a protected instance property.
   return this.protectedProp;
 };
+```
 
 ## JavaScript 类型
 
@@ -1557,6 +1613,7 @@ JavaScript 是一种弱类型语言, 明白可选, 非空和未定义参数或�
 
 对象类型(引用类型)默认非空. 注意: 函数类型默认不能为空. 除了字符串, 整型, 布尔, undefined 和 null 外, 对象可以是任何类型.
 
+```javascript
 /**
  * Some class, initialized with a value.
  * @param {Object} value Some value.
@@ -1570,8 +1627,11 @@ function MyClass(value) {
    */
   this.myValue_ = value;
 }
+```
+
 告诉编译器 myValue_ 属性为一对象或 null. 如果 myValue_ 永远都不会为 null, 就应该如下声明:
 
+```javascript
 /**
  * Some class, initialized with a non-null value.
  * @param {!Object} value Some value.
@@ -1585,10 +1645,13 @@ function MyClass(value) {
    */
   this.myValue_ = value;
 }
+```
+
 这样, 当编译器在代码中碰到 MyClass 为 null 时, 就会给出警告.
 
 函数的可选参数可能在运行时没有定义, 所以如果他们又被赋给类属性, 需要声明成:
 
+```javascript
 /**
  * Some class, initialized with an optional value.
  * @param {Object=} opt_value Some value (optional).
@@ -1602,12 +1665,14 @@ function MyClass(opt_value) {
    */
   this.myValue_ = opt_value;
 }
+```
 这告诉编译器 myValue_ 可能是一个对象, 或 null, 或 undefined.
 
 注意: 可选参数 opt_value 被声明成 {Object=}, 而不是 {Object|undefined}. 这是因为可选参数可能是 undefined. 虽然直接写 undefined 也并无害处, 但鉴于可阅读性还是写成上述的样子.
 
 最后, 属性的非空和可选并不矛盾, 属性既可是非空, 也可是可选的. 下面的四种声明各不相同:
 
+```javascript
 /**
  * Takes four arguments, two of which are nullable, and two of which are
  * optional.
@@ -1620,9 +1685,11 @@ function MyClass(opt_value) {
 function strangeButTrue(nonNull, mayBeNull, opt_nonNull, opt_mayBeNull) {
   // ...
 };
-注释
+```
 
-## 使用 JSDoc
+## 注释
+
+### 使用 JSDoc
 
 我们使用 JSDoc 中的注释风格. 行内注释使用 // 变量 的形式. 另外, 我们也遵循 C++ 代码注释风格 . 这也就是说你需要:
 
@@ -1637,10 +1704,11 @@ function strangeButTrue(nonNull, mayBeNull, opt_nonNull, opt_mayBeNull) {
 
 目前很多编译器可从 JSDoc 中提取类型信息, 来对代码进行验证, 删除和压缩. 因此, 你很有必要去熟悉正确完整的 JSDoc .
 
-顶层/文件注释
+### 顶层/文件注释
 
 顶层注释用于告诉不熟悉这段代码的读者这个文件中包含哪些东西. 应该提供文件的大体内容, 它的作者, 依赖关系和兼容性信息. 如下:
 
+```javascript
 // Copyright 2009 Google Inc. All Rights Reserved.
 
 /**
@@ -1648,10 +1716,13 @@ function strangeButTrue(nonNull, mayBeNull, opt_nonNull, opt_mayBeNull) {
  * about its dependencies.
  * @author user@google.com (Firstname Lastname)
  */
-类注释
+```
+
+### 类注释
 
 每个类的定义都要附带一份注释, 描述类的功能和用法. 也需要说明构造器参数. 如果该类继承自其它类, 应该使用 @extends 标记. 如果该类是对接口的实现, 应该使用 @implements 标记.
 
+```javascript
 /**
  * Class making something fun and easy.
  * @param {string} arg1 An argument that makes this more interesting.
@@ -1663,10 +1734,13 @@ project.MyClass = function(arg1, arg2) {
   // ...
 };
 goog.inherits(project.MyClass, goog.Disposable);
-方法与函数的注释
+```
+
+### 方法与函数的注释
 
 提供参数的说明. 使用完整的句子, 并用第三人称来书写方法说明.
 
+```javascript
 /**
  * Converts text to some completely different text.
  * @param {string} arg1 An argument that makes this more interesting.
@@ -1685,33 +1759,43 @@ project.MyClass.prototype.someMethod = function(arg1) {
 function PR_someMethod(obj) {
   // ...
 }
+```
+
 对于一些简单的, 不带参数的 getters, 说明可以忽略.
 
+```javascript
 /**
  * @return {Element} The element for the component.
  */
 goog.ui.Component.prototype.getElement = function() {
   return this.element_;
 };
-属性注释
+```
+
+### 属性注释
 
 也需要对属性进行注释.
 
+```javascript
 /**
  * Maximum number of things per pane.
  * @type {number}
  */
 project.MyClass.prototype.someProperty = 4;
-类型转换的注释
+```
+
+### 类型转换的注释
 
 有时, 类型检查不能很准确地推断出表达式的类型, 所以应该给它添加类型标记注释来明确之, 并且必须在表达式和类型标签外面包裹括号.
 
 /** @type {number} */ (x)
 (/** @type {number} */ x)
-JSDoc 缩进
+
+### JSDoc 缩进
 
 如果你在 @param, @return, @supported, @this 或 @deprecated 中断行, 需要像在代码中一样, 使用4个空格作为一个缩进层次.
 
+```javascript
 /**
  * Illustrates line wrapping for long param/return descriptions.
  * @param {string} foo This is a param with a description too long to fit in
@@ -1722,10 +1806,13 @@ JSDoc 缩进
 project.MyClass.prototype.method = function(foo) {
   return 5;
 };
+```
+
 不要在 @fileoverview 标记中进行缩进.
 
 虽然不建议, 但也可对说明文字进行适当的排版对齐. 不过, 这样带来一些负面影响, 就是当你每次修改变量名时, 都得重新排版说明文字以保持和变量名对齐.
 
+```javascript
 /**
  * This is NOT the preferred indentation method.
  * @param {string} foo This is a param with a description too long to fit in
@@ -1736,8 +1823,11 @@ project.MyClass.prototype.method = function(foo) {
 project.MyClass.prototype.method = function(foo) {
   return 5;
 };
-枚举
+```
 
+### 枚举
+
+```javascript
 /**
  * Enum for tri-state values.
  * @enum {number}
@@ -1747,8 +1837,11 @@ project.TriState = {
   FALSE: -1,
   MAYBE: 0
 };
+```
+
 注意一下, 枚举也具有有效类型, 所以可以当成参数类型来用.
 
+```javascript
 /**
  * Sets project state.
  * @param {project.TriState} state New project state.
@@ -1756,448 +1849,12 @@ project.TriState = {
 project.setState = function(state) {
   // ...
 };
-Typedefs
+```
 
-有时类型会很复杂. 比如下面的函数, 接收 Element 参数:
+## Tips and Tricks
 
-/**
- * @param {string} tagName
- * @param {(string|Element|Text|Array.<Element>|Array.<Text>)} contents
- * @return {Element}
- */
-goog.createElement = function(tagName, contents) {
-  ...
-};
-你可以使用 @typedef 标记来定义个常用的类型表达式.
+### JavaScript 小技巧
 
-/** @typedef {(string|Element|Text|Array.<Element>|Array.<Text>)} */
-goog.ElementContent;
-
-/**
-* @param {string} tagName
-* @param {goog.ElementContent} contents
-* @return {Element}
-*/
-goog.createElement = function(tagName, contents) {
-...
-};
-JSDoc 标记表
-标记  模板 & 例子 描述  类型检测支持
-@param   @param {Type} 变量名 描述
-如:
-
-/**
- * Queries a Baz for items.
- * @param {number} groupNum Subgroup id to query.
- * @param {string|number|null} term An itemName,
- *     or itemId, or null to search everything.
- */
-goog.Baz.prototype.query = function(groupNum, term) {
-  // ...
-};
-给方法, 函数, 构造器中的参数添加说明. 完全支持.
-@return  @return {Type} 描述
-如:
-
-/**
- * @return {string} The hex ID of the last item.
- */
-goog.Baz.prototype.getLastId = function() {
-  // ...
-  return id;
-};
-给方法, 函数的返回值添加说明. 在描述布尔型参数时, 用 "Whether the component is visible" 这种描述优于 "True if the component is visible, false otherwise". 如果函数没有返回值, 就不需要添加 @return 标记.  完全支持.
-@author  @author username@google.com (first last)
-如:
-
-/**
- * @fileoverview Utilities for handling textareas.
- * @author kuth@google.com (Uthur Pendragon)
- */
-表明文件的作者, 通常仅会在 @fileoverview 注释中使用到它. 不需要.
-@see   @see Link
-如:
-
-/**
- * Adds a single item, recklessly.
- * @see #addSafely
- * @see goog.Collect
- * @see goog.RecklessAdder#add
- ...
-给出引用链接, 用于进一步查看函数/方法的相关细节.  不需要.
-@fileoverview  @fileoverview 描述
-如:
-
-/**
- * @fileoverview Utilities for doing things that require this very long
- * but not indented comment.
- * @author kuth@google.com (Uthur Pendragon)
- */
-文件通览. 不需要.
-@constructor   @constructor
-如:
-
-/**
- * A rectangle.
- * @constructor
- */
-function GM_Rect() {
-  ...
-}
-指明类中的构造器.  会检查. 如果省略了, 编译器将禁止实例化.
-@interface   @interface
-如:
-
-/**
- * A shape.
- * @interface
- */
-function Shape() {};
-Shape.prototype.draw = function() {};
-
-/**
- * A polygon.
- * @interface
- * @extends {Shape}
- */
-function Polygon() {};
-Polygon.prototype.getSides = function() {};
-指明这个函数是一个接口.   会检查. 如果实例化一个接口, 编译器会警告.
-@type  @type Type
-@type {Type}
-如:
-
-/**
- * The message hex ID.
- * @type {string}
- */
-var hexId = hexId;
-标识变量, 属性或表达式的类型. 大多数类型是不需要加大括号的, 但为了保持一致, 建议统一加大括号. 会检查
-@extends   @extends Type
-@extends {Type}
-如:
-
-/**
- * Immutable empty node list.
- * @constructor
- * @extends goog.ds.BasicNodeList
- */
-goog.ds.EmptyNodeList = function() {
-  ...
-};
-与 @constructor 一起使用, 用来表明该类是扩展自其它类的. 类型外的大括号可写可不写.  会检查
-@implements  @implements Type
-@implements {Type}
-如:
-
-/**
- * A shape.
- * @interface
- */
-function Shape() {};
-Shape.prototype.draw = function() {};
-
-/**
- * @constructor
- * @implements {Shape}
- */
-function Square() {};
-Square.prototype.draw = function() {
-  ...
-};
-与 @constructor 一起使用, 用来表明该类实现自一个接口. 类型外的大括号可写可不写.  会检查. 如果接口不完整, 编译器会警告.
-@lends   @lends objectName
-@lends {objectName}
-如:
-
-goog.object.extend(
-    Button.prototype,
-    /** @lends {Button.prototype} */ {
-      isButton: function() { return true; }
-    });
-表示把对象的键看成是其他对象的属性. 该标记只能出现在对象语法中.
-注意, 括号中的名称和其他标记中的类型名称不一样, 它是一个对象名, 以"借过来"的属性名命名. 如, @type {Foo} 表示 "Foo 的一个实例", but @lends {Foo} 表示 "Foo 构造器".
-更多有关此标记的内容见 JSDoc Toolkit docs. 会检查
-@private   @private
-如:
-
-/**
- * Handlers that are listening to this logger.
- * @type Array.<Function>
- * @private
- */
-this.handlers_ = [];
-指明那些以下划线结尾的方法和属性是 私有的. 不推荐使用后缀下划线, 而应改用 @private. 需要指定标志来开启.
-@protected   @protected
-如:
-
-/**
- * Sets the component's root element to the given element.  Considered
- * protected and final.
- * @param {Element} element Root element for the component.
- * @protected
- */
-goog.ui.Component.prototype.setElementInternal = function(element) {
-  // ...
-};
-指明接下来的方法和属性是 被保护的. 被保护的方法和属性的命名不需要以下划线结尾, 和普通变量名没区别.  需要指定标志来开启.
-@this  @this Type
-@this {Type}
-如:
-
-pinto.chat.RosterWidget.extern('getRosterElement',
-/**
- * Returns the roster widget element.
- * @this pinto.chat.RosterWidget
- * @return {Element}
- */
-function() {
-  return this.getWrappedComponent_().getElement();
-});
-指明调用这个方法时, 需要在哪个上下文中. 当 this 指向的不是原型方法的函数时必须使用这个标记. 会检查
-@supported   @supported 描述
-如:
-
-/**
- * @fileoverview Event Manager
- * Provides an abstracted interface to the
- * browsers' event systems.
- * @supported So far tested in IE6 and FF1.5
- */
-在文件概述中用到, 表明支持哪些浏览器.  不需要.
-@enum  @enum {Type}
-如:
-
-/**
- * Enum for tri-state values.
- * @enum {number}
- */
-project.TriState = {
-  TRUE: 1,
-  FALSE: -1,
-  MAYBE: 0
-};
-用于枚举类型. 完全支持. 如果省略, 会认为是整型.
-@deprecated  @deprecated 描述
-如:
-
-/**
- * Determines whether a node is a field.
- * @return {boolean} True if the contents of
- *     the element are editable, but the element
- *     itself is not.
- * @deprecated Use isField().
- */
-BN_EditUtil.isTopEditableField = function(node) {
-  // ...
-};
-告诉其他开发人员, 此方法, 函数已经过时, 不要再使用. 同时也会给出替代方法或函数.  不需要
-@override  @override
-如:
-
-/**
- * @return {string} Human-readable representation of project.SubClass.
- * @override
- */
-project.SubClass.prototype.toString() {
-  // ...
-};
-指明子类的方法和属性是故意隐藏了父类的方法和属性. 如果子类的方法和属性没有自己的文档, 就会继承父类的. 会检查
-@inheritDoc  @inheritDoc
-如:
-
-/** @inheritDoc */
-project.SubClass.prototype.toString() {
-  // ...
-};
-指明子类的方法和属性是故意隐藏了父类的方法和属性, 它们具有相同的文档. 注意: 使用 @inheritDoc 意味着也同时使用了 @override.  会检查
-@code  {@code ...}
-如:
-
-/**
- * Moves to the next position in the selection.
- * Throws {@code goog.iter.StopIteration} when it
- * passes the end of the range.
- * @return {Node} The node at the next position.
- */
-goog.dom.RangeIterator.prototype.next = function() {
-  // ...
-};
-说明这是一段代码, 让它能在生成的文档中正确的格式化. 不适用.
-@license or @preserve  @license 描述
-如:
-
-/**
- * @preserve Copyright 2009 SomeThirdParty.
- * Here is the full license text and copyright
- * notice for this file. Note that the notice can span several
- * lines and is only terminated by the closing star and slash:
- */
-所有被标记为 @license 或 @preserve 的, 会被编译器保留不做任何修改而直接输出到最终文挡中. 这个标记让一些重要的信息(如法律许可或版权信息)原样保留, 同样, 文本中的换行也会被保留. 不需要.
-@noalias   @noalias
-如:
-
-/** @noalias */
-function Range() {}
-在外部文件中使用, 告诉编译器不要为这个变量或函数重命名. 不需要.
-@define  @define {Type} 描述
-如:
-
-/** @define {boolean} */
-var TR_FLAGS_ENABLE_DEBUG = true;
-
-/** @define {boolean} */
-goog.userAgent.ASSUME_IE = false;
-表示该变量可在编译时被编译器重新赋值. 在上面例子中, BUILD 文件中指定了 --define='goog.userAgent.ASSUME_IE=true' 这个编译之后, 常量 goog.userAgent.ASSUME_IE 将被全部直接替换为 true. 不需要.
-@export  @export
-如:
-
-/** @export */
-foo.MyPublicClass.prototype.myPublicMethod = function() {
-  // ...
-};
-上面的例子代码, 当编译器运行时指定 --generate_exports 标志, 会生成下面的代码:
-
-goog.exportSymbol('foo.MyPublicClass.prototype.myPublicMethod',
-    foo.MyPublicClass.prototype.myPublicMethod);
-编译后, 将源代码中的名字原样导出. 使用 @export 标记时, 应该
-
-包含 //javascript/closure/base.js, 或者
-在代码库中自定义 goog.exportSymbol 和 goog.exportProperty 两个方法, 并保证有相同的调用方式.
-不需要.
-@const   @const
-如:
-
-/** @const */ var MY_BEER = 'stout';
-
-/**
- * My namespace's favorite kind of beer.
- * @const
- * @type {string}
- */
-mynamespace.MY_BEER = 'stout';
-
-/** @const */ MyClass.MY_BEER = 'stout';
-声明变量为只读, 直接写在一行上. 如果其他代码中重写该变量值, 编译器会警告.
-
-常量应全部用大写字符, 不过使用这个标记, 可以帮你消除命名上依赖. 虽然 jsdoc.org 上列出的 @final 标记作用等价于 @const , 但不建议使用. @const 与 JS1.5 中的 const 关键字一致. 注意, 编译器不禁止修改常量对象的属性(这与 C++ 中的常量定义不一样). 如果可以准确推测出常量类型的话, 那么类型申明可以忽略. 如果指定了类型, 应该也写在同一行上. 变量的额外注释可写可不写.
-
-支持.
-@nosideeffects   @nosideeffects
-如:
-
-/** @nosideeffects */
-function noSideEffectsFn1() {
-  // ...
-};
-
-/** @nosideeffects */
-var noSideEffectsFn2 = function() {
-  // ...
-};
-
-/** @nosideeffects */
-a.prototype.noSideEffectsFn3 = function() {
-  // ...
-};
-用于对函数或构造器声明, 说明调用此函数不会有副作用. 编译器遇到此标记时, 如果调用函数的返回值没有其他地方使用到, 则会将这个函数整个删除.  不需要检查.
-@typedef   @typedef
-如:
-
-/** @typedef {(string|number)} */
-goog.NumberLike;
-
-/** @param {goog.NumberLike} x A number or a string. */
-goog.readNumber = function(x) {
-  ...
-}
-这个标记用于给一个复杂的类型取一个别名.  会检查
-@externs   @externs
-如:
-
-/**
- * @fileoverview This is an externs file.
- * @externs
- */
-
-var document;
-指明一个外部文件.
-
-不会检查
-在第三方代码中, 你还会见到其他一些 JSDoc 标记. 这些标记在 JSDoc Toolkit Tag Reference 都有介绍到, 但在 Google 的代码中, 目前不推荐使用. 你可以认为这些是将来会用到的 "保留" 名. 它们包含:
-
-@augments
-@argument
-@borrows
-@class
-@constant
-@constructs
-@default
-@event
-@example
-@field
-@function
-@ignore
-@inner
-@link
-@memberOf
-@name
-@namespace
-@property
-@public
-@requires
-@returns
-@since
-@static
-@version
-JSDoc 中的 HTML
-
-类似于 JavaDoc, JSDoc 支持许多 HTML 标签, 如 <code>, <pre>, <tt>, <strong>, <ul>, <ol>, <li>, <a>, 等等.
-
-这就是说 JSDoc 不会完全依照纯文本中书写的格式. 所以, 不要在 JSDoc 中, 使用空白字符来做格式化:
-
-/**
- * Computes weight based on three factors:
- *   items sent
- *   items received
- *   last timestamp
- */
-上面的注释, 出来的结果是:
-
-Computes weight based on three factors: items sent items received items received
-应该这样写:
-
-/**
- * Computes weight based on three factors:
- * <ul>
- * <li>items sent
- * <li>items received
- * <li>last timestamp
- * </ul>
- */
-另外, 也不要包含任何 HTML 或类 HTML 标签, 除非你就想让它们解析成 HTML 标签.
-
-/**
- * Changes <b> tags to <span> tags.
- */
-出来的结果是:
-
-Changes tags to tags.
-另外, 也应该在源代码文件中让其他人更可读, 所以不要过于使用 HTML 标签:
-
-/**
- * Changes &lt;b&gt; tags to &lt;span&gt; tags.
- */
-上面的代码中, 其他人就很难知道你想干嘛, 直接改成下面的样子就清楚多了:
-
-/**
-* Changes 'b' tags to 'span' tags.
-*/
-
-
-Tips and Tricks
-
-JavaScript 小技巧
 True 和 False 布尔表达式
 
 下面的布尔表达式都返回 false:
@@ -2225,6 +1882,7 @@ if (y != null && y != '') {
 if (y) {
 注意: 还有很多需要注意的地方, 如:
 
+```javascript
 Boolean('0') == true
 '0' != true
 0 != null
@@ -2242,30 +1900,38 @@ Boolean([]) == true
 Boolean({}) == true
 {} != true
 {} != false
+```
+
 条件(三元)操作符 (?:)
 
 三元操作符用于替代下面的代码:
 
+```javascript
 if (val != 0) {
   return foo();
 } else {
   return bar();
 }
-你可以写成:
+```
 
+你可以写成:
+```javascript
 return val ? foo() : bar();
+```
 在生成 HTML 代码时也是很有用的:
 
 var html = '<input type="checkbox"' +
     (isChecked ? ' checked' : '') +
     (isEnabled ? '' : ' disabled') +
     ' name="foo">';
+
 && 和 ||
 
 二元布尔操作符是可短路的, 只有在必要时才会计算到最后一项.
 
 "||" 被称作为 'default' 操作符, 因为可以这样:
 
+```javascript
 /** @param {*=} opt_win */
 function foo(opt_win) {
   var win;
@@ -2276,15 +1942,21 @@ function foo(opt_win) {
   }
   // ...
 }
+```
+
 你可以使用它来简化上面的代码:
 
+```javascript
 /** @param {*=} opt_win */
 function foo(opt_win) {
   var win = opt_win || window;
   // ...
 }
+```
+
 "&&" 也可简短代码.比如:
 
+```javascript
 if (node) {
   if (node.kids) {
     if (node.kids[index]) {
@@ -2292,6 +1964,7 @@ if (node) {
     }
   }
 }
+```
 你可以像这样来使用:
 
 if (node && node.kids && node.kids[index]) {
@@ -2350,12 +2023,13 @@ for (var i = 0, paragraph; paragraph = paragraphs[i]; i++) {
 
 在上面的例子中, 也可以通过 firstChild 和 nextSibling 来遍历孩子节点.
 
+```javascript
 var parentNode = document.getElementById('foo');
 for (var child = parentNode.firstChild; child; child = child.nextSibling) {
   doSomething(child);
 }
+```
 
-Parting Words
 
 保持一致性.
 
