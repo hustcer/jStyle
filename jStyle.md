@@ -2,8 +2,8 @@
 # JavaScript 编码规范指南
 
 #### 以下文档大多来自:
-* [Idiomatic 风格](https://github.com/rwldrn/idiomatic.js/tree/master/translations/zh_CN)
 * [Google JavaScript 编码规范指南](http://wyz.67ge.com/google-js/javascriptguide.xml)
+* [Idiomatic 风格](https://github.com/rwldrn/idiomatic.js/tree/master/translations/zh_CN)
 
 #### 参考规范
 
@@ -42,11 +42,11 @@
 
 ##### 行末和空行
 
-    留白会破坏 diff 并使diff 结果变得更不可读。考虑包括一个预提交的 hook 自动删除行末和空行中的空格。
+留白会破坏 diff 并使diff 结果变得更不可读。考虑包括一个预提交的 hook 自动删除行末和空行中的空格。
 
 ##### 花括号, 换行
 
-    ```javascript
+```javascript
 
     // if/else/for/while/try 通常都有小括号、花括号和多行
     // 这有助于可读
@@ -59,8 +59,7 @@
     while(condition) iterating++;
 
     for(var i=0;i<100;i++) someIterativeFn();
-
-    ```
+```
 
 ##### 命名
 
