@@ -1,29 +1,17 @@
-# 书写具备一致风格、通俗易懂 JavaScript 的原则
+
+# JavaScript 编码规范指南
 
 #### 以下文档大多来自:
-### [Idiomatic 风格](https://github.com/rwldrn/idiomatic.js/tree/master/translations/zh_CN)
-### [Google JavaScript 编码规范指南](http://wyz.67ge.com/google-js/javascriptguide.xml)
+* [Idiomatic 风格](https://github.com/rwldrn/idiomatic.js/tree/master/translations/zh_CN)
+* [Google JavaScript 编码规范指南](http://wyz.67ge.com/google-js/javascriptguide.xml)
 
 ### 基本原则: 无论有多少人在维护，所有在代码仓库中的代码理应看起来像同一个人写的。
 
-### 下面的清单概括了JS代码编写的一些最佳实践。在项目中所有构建代码都必须遵循这些规则。
-
-> ### "对风格的挑刺毫无意义可言。它们必须是指导原则，且你必须遵循。"
->_Rebecca_ _Murphey_
-
-&nbsp;
-
-> ### "成为一个优秀的成功项目管理者的一个条件是，明白按自己的偏好风格写代码是非常不好的做法。如果成千上万的人都在使用你的代码，那么请尽可能通俗易懂地写出你的代码，而非在规范之下自作聪明地使用自己偏好的风格。"
->_Idan_ _Gazit_
-
 ## 参考规范
 
-### [ECMAScript 5.1 注解版](http://es5.github.com/)
-### [EcmaScript 语言规范, 5.1 版](http://ecma-international.org/ecma-262/5.1/)
+* [ECMAScript 5.1 注解版](http://es5.github.com/)
+* [EcmaScript 语言规范, 5.1 版](http://ecma-international.org/ecma-262/5.1/)
 
-### 编译和部署
-
-项目必须总是提供一些通用的方法来检验（can be linted）、测试和压缩源码以为产品阶段使用做准备。对于此类工作 Ben Alman 所写的 [grunt](https://github.com/cowboy/grunt) 可谓首屈一指，并已替代这个仓库的 “kits/” 目录作官方工具。
 
 ## 目录
 
@@ -34,13 +22,11 @@
 
 下面的章节描述的是一个 _合理_ 的现代 JavaScript 开发风格指南，并非硬性规定。其想送出的核心理念是*高度统一的代码风格*（the law of code style consistency）。你为项目所择风格都应为最高准则。作为一个描述放置于你的项目中，并链接到这个文档作为代码风格一致性、可读性和可维护性的保证。
 
-# Google JavaScript 编码规范指南
+### 项目约定
 
-## 背景
+项目必须总是提供一些通用的方法来检验（can be linted）、测试和压缩源码以为产品阶段使用做准备。对于此类工作 Ben Alman 所写的 [grunt](https://github.com/cowboy/grunt) 可谓首屈一指，并已替代这个仓库的 “kits/” 目录作官方工具。
 
-JavaScript 是一种客户端脚本语言, Google 的许多开源工程中都有用到它. 这份指南列出了编写 JavaScript 时需要遵守的规则.
-
-## JavaScript 语言规范
+## 详细JavaScript 语言规范
 
 ### 变量
 
@@ -49,7 +35,6 @@ JavaScript 是一种客户端脚本语言, Google 的许多开源工程中都有
 
 ```javascript
 
-  // 2.B.1.1
   // 变量
   var foo = "bar",
     num = 1,
@@ -59,8 +44,6 @@ JavaScript 是一种客户端脚本语言, Google 的许多开源工程中都有
   var array = [],
     object = {};
 
-
-  // 2.B.1.2
   // 在一个作用域（函数）内只使用一个 `var` 有助于提升可读性
   // 并且让你的声明列表变得有条不紊 (还帮你省了几次键盘敲击)
 
@@ -69,7 +52,7 @@ JavaScript 是一种客户端脚本语言, Google 的许多开源工程中都有
   var bar = "";
   var qux;
 
-  // 好
+  // 好的做法
   var foo = "",
     bar = "",
     quux;
@@ -80,7 +63,6 @@ JavaScript 是一种客户端脚本语言, Google 的许多开源工程中都有
   bar = "",
   quux;
 
-  // 2.B.1.3
   // `var` 语句必须总是在各自作用域（函数）顶部
   // 同样适应于来自 ECMAScript 6 的常量
 
@@ -105,6 +87,7 @@ JavaScript 是一种客户端脚本语言, Google 的许多开源工程中都有
 ### 常量
 
 常量的形式如: NAMES_LIKE_THIS, 即使用大写字符, 并用下划线分隔. 你也可用 @const 标记来指明它是一个常量. 但请永远不要使用 const 关键词.
+
 Decision:
 对于基本类型的常量, 只需转换命名.
 
@@ -140,9 +123,10 @@ Decision:
 ### 分号
 
 总是使用分号.
+
 如果仅依靠语句间的隐式分隔, 有时会很麻烦. 你自己更能清楚哪里是语句的起止.
 
-而且有些情况下, 漏掉分号会很危险:
+而且有些情况下, 漏掉分号会很危险，可能会导致代码合并错误等，又比如:
 
   ```javascript
 
@@ -155,7 +139,6 @@ Decision:
       // Some initialization code wrapped in a function to create a scope for locals.
     })();
 
-
     var x = {
       'i': 1,
       'j': 2
@@ -164,7 +147,6 @@ Decision:
     // 2.  Trying to do one thing on Internet Explorer and another on Firefox.
     // I know you'd never write code like this, but throw me a bone.
     [normalVersion, ffVersion][isIE]();
-
 
     var THINGS_TO_EAT = [apples, oysters, sprayOnCheese]  // No semicolon here.
 
@@ -185,15 +167,14 @@ JavaScript 的语句以分号作为结束符, 除非可以非常准确推断某�
 
 ### 块内函数声明
 
-不要在块内声明一个函数
-不要写成:
+不要在块内声明一个函数，不要写成:
 
 ```javascript
   if (x) {
     function foo() {}
   }
 ```
-虽然很多 JS 引擎都支持块内声明函数, 但它不属于 ECMAScript 规范 (见 ECMA-262, 第13和14条). 各个浏览器糟糕的实现相互不兼容, 有些也与未来 ECMAScript 草案相违背. ECMAScript 只允许在脚本的根语句或函数中声明函数. 如果确实需要在块中定义函数, 建议使用函数表达式来初始化变量:
+虽然很多 JS 引擎都支持块内声明函数, 但它不属于 ECMAScript 规范 (见 [ECMA-262](http://www.ecma-international.org/publications/standards/Ecma-262.htm), 第13和14条). 各个浏览器糟糕的实现相互不兼容, 有些也与未来 ECMAScript 草案相违背. ECMAScript 只允许在脚本的根语句或函数中声明函数. 如果确实需要在块中定义函数, 建议使用函数表达式来初始化变量:
 
 ```javascript
   if (x) {
@@ -231,7 +212,7 @@ JavaScript 的语句以分号作为结束符, 除非可以非常准确推断某�
 ### 闭包
 
 可以, 但小心使用.
-闭包也许是 JS 中最有用的特性了. 有一份比较好的介绍闭包原理的文档.
+闭包也许是 JS 中最有用的特性了. 有一份比较好的介绍闭包原理的[文档](http://jibbering.com/faq/notes/closures/).
 
 有一点需要牢记, 闭包保留了一个指向它封闭作用域的指针, 所以, 在给 DOM 元素附加闭包时, 很可能会产生循环引用, 进一步导致内存泄漏. 比如下面的代码:
 
@@ -250,7 +231,6 @@ JavaScript 的语句以分号作为结束符, 除非可以非常准确推断某�
   function bar(a, b) {
     return function() { /* uses a and b */ }
   }
-
 ```
 
 ### eval()
