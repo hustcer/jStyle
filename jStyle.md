@@ -23,7 +23,135 @@
 
 ### 项目约定
 
-项目必须总是提供一些通用的方法来检验（can be linted）、测试和压缩源码以为产品阶段使用做准备。对于此类工作 Ben Alman 所写的 [grunt](https://github.com/cowboy/grunt) 可谓首屈一指，并已替代这个仓库的 “kits/” 目录作官方工具。
+* JS/CSS 文件编码统一采用 UTF8编码
+* 代码缩进使用4个空格缩进替代 tab 缩进
+* JS/CSS 最终发布到产品中的时候需要被压缩，以减小静态资源文件大小，提升页面加载速度
+* JS代码提交之前需要通过jslint检查，不能存在明显问题
+* JS文件名应该使用小写字符, 以避免在有些系统平台上不识别大小写的命名方式. 文件名以.js结尾, 不要包含除 - 和 _ 外的标点符号(使用 - 优于 _).
+* 如果编辑器支持在文件保存的时候自动删除行末和空行中的空格
+* 新增、修改、查看等表单在 popup的时候需要重新初始化清除原来数据
+
+项目必须总是提供一些通用的方法来检验（can be linted）、测试和压缩源码以为产品阶段使用做准备。对于此类工作 Ben Alman 所写的 [grunt](https://github.com/cowboy/grunt) 可谓首屈一指。通过简单的配置即可完成自动对css进行检查/压缩/合并，对js进行检查/压缩/合并，对html文件进行压缩，删除创建目录，拷贝文件，压缩打包等，十分方便。
+参考的grunt配置文件:
+```javascript
+/**
+ * Grunt file for front end resource check/minify/compress.
+ * Date      : 2013/07/23
+ * copyright : (c) 2013 by QiZhi.
+ */
+module.exports = function(grunt) {
+
+    grunt.initConfig({
+        pkg: grunt.file.readJSON('package.json'),
+        jshint: {
+            options: {
+                asi       : true,
+                curly     : false,
+                eqeqeq    : true,
+                immed     : false,
+                latedef   : true,
+                newcap    : true,
+                noarg     : true,
+                sub       : true,
+                undef     : true,
+                boss      : true,
+                eqnull    : true,
+                smarttabs : true,
+                browser   : true,
+                jquery    : true,
+                white     : false,
+                laxbreak  : false,
+                laxcomma  : true,
+                expr      : true,
+                devel     : false,
+                globals   : {
+                    module    : true,
+                    Mousetrap : true,
+                    jQuery    : true
+                }
+            },
+            all: ['Gruntfile.js', 'js/**/*.js', '!js/**/*.min.js', '!js/json2.js', '!js/jquery.simplemodal.js']
+        },
+        clean: {
+            release: {
+                src: ['release/']
+            }
+        },
+        uglify: {
+            options: {
+                banner: '/*! <%= pkg.description %>  Ver: <%= pkg.version %>  Date: <%= grunt.template.today("yyyy/mm/dd HH:MM:ss") %> */\n'
+            },
+            dist: {
+                // Grunt will search for "**/?.js" under "js/" when the "uglify" task
+                // runs and build the appropriate src-dest file mappings then, so you
+                // don't need to update the Gruntfile when files are added or removed.
+                files: [
+                    {
+                        expand : true,                                  // Enable dynamic expansion.
+                        cwd    : 'js/',                                 // Src matches are relative to this path.
+                        src    : ['jquery.simplemodal.js','index.js'],  // Actual pattern(s) to match.
+                        dest   : 'release/js/'                          // Destination path prefix.
+                        // ext : '.js'                                  // Dest filepaths will have this extension. '.min.js' is recommeded.
+                    }
+                ]
+            }
+        },
+        cssmin: {
+          minify: {
+            expand : true,
+            cwd    : 'style/',
+            src    : ['*.css'],
+            dest   : 'release/style/',
+            ext    : '.css'
+          }
+        },
+        htmlmin: {                                       // Task
+            dist: {                                      // Target
+              options: {                                 // Target options
+                removeComments: true,
+                collapseWhitespace: true
+              },
+              files: {                                   // Dictionary of files
+                'release/index.html': 'index.html'       // 'destination': 'source'
+              }
+            }
+        },
+        copy: {
+          main: {
+            files: [
+              {expand: true, cwd: '.', src: ['js/*.min.js', 'js/json2.js', 'images/*'], dest: 'release/'}
+            ]
+          }
+        },
+        compress: {
+          main: {
+            options: {
+              archive: 'release/executable.zip'       // make a zipfile
+            },
+            files: [
+              // {src: ['release/**'], dest: 'release/'},                           // includes files in path and its subdirs
+              {expand: true, cwd: 'release/', src: ['**'], dest: 'executable/'}  // makes all src relative to cwd
+            ]
+          }
+        }
+
+    });
+
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-htmlmin');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-compress');
+
+    grunt.registerTask('min'    , ['clean', 'uglify', 'cssmin', 'htmlmin', 'copy', 'compress']);
+    grunt.registerTask('check'  , ['jshint']);
+    grunt.registerTask('default', ['jshint', 'clean', 'uglify', 'cssmin', 'htmlmin', 'copy', 'compress']);
+
+};
+
+```
 
 ### 规范详情
 
