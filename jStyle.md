@@ -843,6 +843,7 @@
 ### 前置逗号（Comma First）
 
 所有使用这个文档作为基本风格指南的项目都不允许前置逗号的代码格式，除非明确指定或者作者要求。
+
 ------
 
 # Google JavaScript 编码规范指南
@@ -958,12 +959,11 @@ JavaScript 的语句以分号作为结束符, 除非可以非常准确推断某�
 ```
 ### 标准特性
 
-总是优于非标准特性.
+标准特性总是优于非标准特性.
 最大化可移植性和兼容性, 尽量使用标准方法而不是用非标准方法, (比如, 优先用string.charAt(3) 而不用 string[3] , 通过 DOM 原生函数访问元素, 而不是使用应用封装好的快速接口.
 
-### 封装基本类型
+### 不要封装基本类型
 
-不要
 没有任何理由去封装基本类型, 另外还存在一些风险:
 
 ```javascript
@@ -1159,7 +1159,7 @@ var myString = 'A rather long string of English text, an error message \
   var a3 = [x1];
   var a4 = [];
 ```
-虽然 Object 构造器没有上述类似的问题, 但鉴于可读性和一致性考虑, 最好还是在字面上更清晰地指明.
+虽然 Object 构造器没有上述类似的问题, 但鉴于可读性和一致性考虑, 最好还是在字面上更清晰地指明. 例如：
 
 ```javascript
   var o = new Object();
@@ -1183,7 +1183,7 @@ var myString = 'A rather long string of English text, an error message \
   };
 ```
 
-###　不要修改内置对象的原型
+### 不要修改内置对象的原型
 
 千万不要修改内置对象, 如 Object.prototype 和 Array.prototype 的原型. 而修改内置对象, 如 Function.prototype 的原型, 虽然少危险些, 但仍会导致调试时的诡异现象. 所以也要避免修改其原型.
 
@@ -1193,7 +1193,6 @@ var myString = 'A rather long string of English text, an error message \
 ### 命名
 
 通常, 使用 functionNamesLikeThis, variableNamesLikeThis, ClassNamesLikeThis, EnumNamesLikeThis, methodNamesLikeThis, 和 SYMBOLIC_CONSTANTS_LIKE_THIS.
-
 
 ### 属性和方法
 
@@ -1215,33 +1214,39 @@ Getters 和 setters 并不是必要的. 但只要使用它们了, 就请将 gett
 ### 命名空间
 
 JavaScript 不支持包和命名空间.
-
 不容易发现和调试全局命名的冲突, 多个系统集成时还可能因为命名冲突导致很严重的问题. 为了提高 JavaScript 代码复用率, 我们遵循下面的约定以避免冲突.
 
-为全局代码使用命名空间
+#### 为全局代码使用命名空间
 
 在全局作用域上, 使用一个唯一的, 与工程/库相关的名字作为前缀标识. 比如, 你的工程是 "Project Sloth", 那么命名空间前缀可取为 sloth.*.
 
+```javascript
 var sloth = {};
 
 sloth.sleep = function() {
   ...
 };
+```
+
 许多 JavaScript 库, 包括 the Closure Library and Dojo toolkit 为你提供了声明你自己的命名空间的函数. 比如:
 
+```javascript
 goog.provide('sloth');
 
 sloth.sleep = function() {
   ...
 };
-明确命名空间所有权
+```
+
+#### 明确命名空间所有权
 
 当选择了一个子命名空间, 请确保父命名空间的负责人知道你在用哪个子命名空间, 比如说, 你为工程 'sloths' 创建一个 'hats' 子命名空间, 那确保 Sloth 团队人员知道你在使用 sloth.hats.
 
-### 外部代码和内部代码使用不同的命名空间
+#### 外部代码和内部代码使用不同的命名空间
 
 "外部代码" 是指来自于你代码体系的外部, 可以独立编译. 内外部命名应该严格保持独立. 如果你使用了外部库, 他的所有对象都在 foo.hats.* 下, 那么你自己的代码不能在 foo.hats.*下命名, 因为很有可能其他团队也在其中命名.
 
+```javascript
 foo.require('foo.hats');
 
 /**
@@ -1251,8 +1256,11 @@ foo.require('foo.hats');
  */
 foo.hats.BowlerHat = function() {
 };
+```
+
 如果你需要在外部命名空间中定义新的 API, 那么你应该直接导出一份外部库, 然后在这份代码中修改. 在你的内部代码中, 应该通过他们的内部名字来调用内部 API , 这样保持一致性可让编译器更好的优化你的代码.
 
+```javascript
 foo.provide('googleyhats.BowlerHat');
 
 foo.require('foo.hats');
@@ -1266,10 +1274,13 @@ googleyhats.BowlerHat = function() {
 };
 
 goog.exportSymbol('foo.hats.BowlerHat', googleyhats.BowlerHat);
-重命名那些名字很长的变量, 提高可读性
+```
+
+### 重命名那些名字很长的变量, 提高可读性
 
 主要是为了提高可读性. 局部空间中的变量别名只需要取原名字的最后部分.
 
+```javascript
 /**
  * @constructor
  */
@@ -1288,7 +1299,7 @@ myapp.main = function() {
   var staticHelper = some.long.namespace.MyClass.staticHelper;
   staticHelper(new MyClass());
 };
-
+```
 
 ### 除非是枚举类型, 不然不要访问别名变量的属性.
 
@@ -1477,6 +1488,7 @@ if (searchableCollection(allYourStuff).contains(theStuffYouWant) &&
 ### 空行
 
 使用空行来划分一组逻辑上相关联的代码片段.
+
 ```javascript
 doSomethingTo(x);
 doSomethingElseTo(x);
@@ -1552,57 +1564,6 @@ AA_init_();
 
 标记为 @protected 的属性, 在当前文件中可访问它, 如果是类属性保护, 那么"拥有"该属性的类及其子类中的所有静态/普通成员也可访问.
 
-注意: 这与 C++, Java 中的私有和保护不同, 它们是在当前文件中, 检查是否具有访问私有/保护属性的权限, 有权限即可访问, 而不是只能在同一个类或类层次上. 而 C++ 中的私有属性不能被子类覆盖. (C++/Java 中的私有/保护是指作用域上的可访问性, 在可访问性上的限制. JS 中是在限制在作用域上. PS: 可见性是与作用域对应)
-
-```javascript
-// File 1.
-
-/** @constructor */
-  AA_PublicClass = function() {
-};
-
-/** @private */
-AA_PublicClass.staticPrivateProp_ = 1;
-
-/** @private */
-AA_PublicClass.prototype.privateProp_ = 2;
-
-/** @protected */
-AA_PublicClass.staticProtectedProp = 31;
-
-/** @protected */
-AA_PublicClass.prototype.protectedProp = 4;
-
-// File 2.
-
-/**
- * @return {number} The number of ducks we've arranged in a row.
- */
-AA_PublicClass.prototype.method = function() {
-  // Legal accesses of these two properties.
-  return this.privateProp_ + AA_PublicClass.staticPrivateProp_;
-};
-
-// File 3.
-
-/**
- * @constructor
- * @extends {AA_PublicClass}
- */
-AA_SubClass = function() {
-  // Legal access of a protected static property.
-  AA_PublicClass.staticProtectedProp = this.method();
-};
-goog.inherits(AA_SubClass, AA_PublicClass);
-
-/**
- * @return {number} The number of ducks we've arranged in a row.
- */
-AA_SubClass.prototype.method = function() {
-  // Legal access of a protected instance property.
-  return this.protectedProp;
-};
-```
 
 ## JavaScript 类型
 
@@ -1693,12 +1654,12 @@ function strangeButTrue(nonNull, mayBeNull, opt_nonNull, opt_mayBeNull) {
 
 我们使用 JSDoc 中的注释风格. 行内注释使用 // 变量 的形式. 另外, 我们也遵循 C++ 代码注释风格 . 这也就是说你需要:
 
-版权和著作权的信息,
-文件注释中应该写明该文件的基本信息(如, 这段代码的功能摘要, 如何使用, 与哪些东西相关), 来告诉那些不熟悉代码的读者.
-类, 函数, 变量和必要的注释,
-期望在哪些浏览器中执行,
-正确的大小写, 标点和拼写.
-为了避免出现句子片段, 请以合适的大/小写单词开头, 并以合适的标点符号结束这个句子.
+* 版权和著作权的信息,
+* 文件注释中应该写明该文件的基本信息(如, 这段代码的功能摘要, 如何使用, 与哪些东西相关), 来告诉那些不熟悉代码的读者.
+* 类, 函数, 变量和必要的注释,
+* 期望在哪些浏览器中执行,
+* 正确的大小写, 标点和拼写.
+* 为了避免出现句子片段, 请以合适的大/小写单词开头, 并以合适的标点符号结束这个句子.
 
 现在假设维护这段代码的是一位初学者. 这可能正好是这样的!
 
@@ -1855,7 +1816,7 @@ project.setState = function(state) {
 
 ### JavaScript 小技巧
 
-True 和 False 布尔表达式
+#### True 和 False 布尔表达式
 
 下面的布尔表达式都返回 false:
 
@@ -1902,7 +1863,7 @@ Boolean({}) == true
 {} != false
 ```
 
-条件(三元)操作符 (?:)
+#### 条件(三元)操作符 (?:)
 
 三元操作符用于替代下面的代码:
 
@@ -1925,7 +1886,7 @@ var html = '<input type="checkbox"' +
     (isEnabled ? '' : ' disabled') +
     ' name="foo">';
 
-&& 和 ||
+#### && 和 ||
 
 二元布尔操作符是可短路的, 只有在必要时才会计算到最后一项.
 
@@ -1967,22 +1928,29 @@ if (node) {
 ```
 你可以像这样来使用:
 
+```javascript
 if (node && node.kids && node.kids[index]) {
   foo(node.kids[index]);
 }
+```
 或者:
 
+```javascript
 var kid = node && node.kids && node.kids[index];
 if (kid) {
   foo(kid);
 }
-不过这样就有点儿过头了:
+```
 
+不过这样就有点儿过头了:
+```javascript
 node && node.kids && node.kids[index] && foo(node.kids[index]);
+```
 使用 join() 来创建字符串
 
 通常是这样使用的:
 
+```javascript
 function listHtml(items) {
   var html = '<div class="foo">';
   for (var i = 0; i < items.length; ++i) {
@@ -1994,8 +1962,10 @@ function listHtml(items) {
   html += '</div>';
   return html;
 }
+```
 但这样在 IE 下非常慢, 可以用下面的方式:
 
+```javascript
 function listHtml(items) {
   var html = [];
   for (var i = 0; i < items.length; ++i) {
@@ -2003,22 +1973,26 @@ function listHtml(items) {
   }
   return '<div class="foo">' + html.join(', ') + '</div>';
 }
+```
 你也可以是用数组作为字符串构造器, 然后通过 myArray.join('') 转换成字符串. 不过由于赋值操作快于数组的 push(), 所以尽量使用赋值操作.
 
-遍历 Node List
+#### 遍历 Node List
 
 Node lists 是通过给节点迭代器加一个过滤器来实现的. 这表示获取他的属性, 如 length 的时间复杂度为 O(n), 通过 length 来遍历整个列表需要 O(n^2).
 
+```javascript
 var paragraphs = document.getElementsByTagName('p');
 for (var i = 0; i < paragraphs.length; i++) {
   doSomething(paragraphs[i]);
 }
+```
 这样做会更好:
-
+```javascript
 var paragraphs = document.getElementsByTagName('p');
 for (var i = 0, paragraph; paragraph = paragraphs[i]; i++) {
   doSomething(paragraph);
 }
+```
 这种方法对所有的 collections 和数组(只要数组不包含 falsy 值) 都适用.
 
 在上面的例子中, 也可以通过 firstChild 和 nextSibling 来遍历孩子节点.
@@ -2031,7 +2005,7 @@ for (var child = parentNode.firstChild; child; child = child.nextSibling) {
 ```
 
 
-保持一致性.
+## 保持一致性.
 
 当你在编辑代码之前, 先花一些时间查看一下现有代码的风格. 如果他们给算术运算符添加了空格, 你也应该添加. 如果他们的注释使用一个个星号盒子, 那么也请你使用这种方式.
 
