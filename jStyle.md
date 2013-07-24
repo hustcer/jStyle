@@ -1528,124 +1528,8 @@ var z = a ?
 使用 ' 优于 "
 单引号 (') 优于双引号 ("). 当你创建一个包含 HTML 代码的字符串时就知道它的好处了.
 
+```javascript
 var msg = 'This is some HTML';
-可见性 (私有域和保护域)
-
-推荐使用 JSDoc 中的两个标记: @private 和 @protected
-JSDoc 的两个标记 @private 和 @protected 用来指明类, 函数, 属性的可见性域.
-
-标记为 @private 的全局变量和函数, 表示它们只能在当前文件中访问.
-
-标记为 @private 的构造器, 表示该类只能在当前文件或是其静态/普通成员中实例化; 私有构造器的公共静态属性在当前文件的任何地方都可访问, 通过 instanceof 操作符也可.
-
-永远不要为 全局变量, 函数, 构造器加 @protected 标记.
-
-```javascript
-// File 1.
-// AA_PrivateClass_ and AA_init_ are accessible because they are global
-// and in the same file.
-
-/**
- * @private
- * @constructor
- */
-AA_PrivateClass_ = function() {
-};
-
-/** @private */
-function AA_init_() {
-  return new AA_PrivateClass_();
-}
-
-AA_init_();
-```
-
-标记为 @private 的属性, 在当前文件中可访问它; 如果是类属性私有, "拥有"该属性的类的所有静态/普通成员也可访问, 但它们不能被不同文件中的子类访问或覆盖.
-
-标记为 @protected 的属性, 在当前文件中可访问它, 如果是类属性保护, 那么"拥有"该属性的类及其子类中的所有静态/普通成员也可访问.
-
-
-## JavaScript 类型
-
-强烈建议你去使用编译器.
-如果使用 JSDoc, 那么尽量具体地, 准确地根据它的规则来书写类型说明. 目前支持两种 JS2 和 JS1.x 类型规范.
-
-JavaScript 是一种弱类型语言, 明白可选, 非空和未定义参数或属性之间的细微差别还是很重要的.
-
-对象类型(引用类型)默认非空. 注意: 函数类型默认不能为空. 除了字符串, 整型, 布尔, undefined 和 null 外, 对象可以是任何类型.
-
-```javascript
-/**
- * Some class, initialized with a value.
- * @param {Object} value Some value.
- * @constructor
- */
-function MyClass(value) {
-  /**
-   * Some value.
-   * @type {Object}
-   * @private
-   */
-  this.myValue_ = value;
-}
-```
-
-告诉编译器 myValue_ 属性为一对象或 null. 如果 myValue_ 永远都不会为 null, 就应该如下声明:
-
-```javascript
-/**
- * Some class, initialized with a non-null value.
- * @param {!Object} value Some value.
- * @constructor
- */
-function MyClass(value) {
-  /**
-   * Some value.
-   * @type {!Object}
-   * @private
-   */
-  this.myValue_ = value;
-}
-```
-
-这样, 当编译器在代码中碰到 MyClass 为 null 时, 就会给出警告.
-
-函数的可选参数可能在运行时没有定义, 所以如果他们又被赋给类属性, 需要声明成:
-
-```javascript
-/**
- * Some class, initialized with an optional value.
- * @param {Object=} opt_value Some value (optional).
- * @constructor
- */
-function MyClass(opt_value) {
-  /**
-   * Some value.
-   * @type {Object|undefined}
-   * @private
-   */
-  this.myValue_ = opt_value;
-}
-```
-这告诉编译器 myValue_ 可能是一个对象, 或 null, 或 undefined.
-
-注意: 可选参数 opt_value 被声明成 {Object=}, 而不是 {Object|undefined}. 这是因为可选参数可能是 undefined. 虽然直接写 undefined 也并无害处, 但鉴于可阅读性还是写成上述的样子.
-
-最后, 属性的非空和可选并不矛盾, 属性既可是非空, 也可是可选的. 下面的四种声明各不相同:
-
-```javascript
-/**
- * Takes four arguments, two of which are nullable, and two of which are
- * optional.
- * @param {!Object} nonNull Mandatory (must not be undefined), must not be null.
- * @param {Object} mayBeNull Mandatory (must not be undefined), may be null.
- * @param {!Object=} opt_nonNull Optional (may be undefined), but if present,
- *     must not be null!
- * @param {Object=} opt_mayBeNull Optional (may be undefined), may be null.
- */
-function strangeButTrue(nonNull, mayBeNull, opt_nonNull, opt_mayBeNull) {
-  // ...
-};
 ```
 
 ## 注释
@@ -1820,15 +1704,20 @@ project.setState = function(state) {
 
 下面的布尔表达式都返回 false:
 
+```javascript
 null
 undefined
-'' 空字符串
-0 数字0
+''          // 空字符串
+0           //数字0
+```
+
 但小心下面的, 可都返回 true:
 
-'0' 字符串0
-[] 空数组
-{} 空对象
+```javascript
+'0'   // 字符串0
+[]    // 空数组
+{}    // 空对象
+```
 下面段比较糟糕的代码:
 
 while (x != null) {
