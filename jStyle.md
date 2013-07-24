@@ -125,9 +125,7 @@ Decision:
 
 总是使用分号.
 
-如果仅依靠语句间的隐式分隔, 有时会很麻烦. 你自己更能清楚哪里是语句的起止.
-
-而且有些情况下, 漏掉分号会很危险，可能会导致代码合并错误等，又比如:
+如果仅依靠语句间的隐式分隔, 有时会很麻烦. 你自己更能清楚哪里是语句的起止. 而且有些情况下, 漏掉分号会很危险，可能会导致代码合并错误等，又比如:
 
   ```javascript
 
@@ -532,7 +530,7 @@ googleyhats.BowlerHat = function() {
 goog.exportSymbol('foo.hats.BowlerHat', googleyhats.BowlerHat);
 ```
 
-### 重命名那些名字很长的变量, 提高可读性
+##### 重命名那些名字很长的变量, 提高可读性
 
 主要是为了提高可读性. 局部空间中的变量别名只需要取原名字的最后部分.
 
@@ -557,7 +555,7 @@ myapp.main = function() {
 };
 ```
 
-### 除非是枚举类型, 不然不要访问别名变量的属性.
+##### 除非是枚举类型, 不然不要访问别名变量的属性.
 
 ```javascript
 /** @enum {string} */
@@ -582,28 +580,28 @@ myapp.main = function() {
 ```
 不要在全局范围内创建别名, 而仅在函数块作用域中使用.
 
-### 文件名
+##### 文件名
 
 文件名应该使用小写字符, 以避免在有些系统平台上不识别大小写的命名方式. 文件名以.js结尾, 不要包含除 - 和 _ 外的标点符号(使用 - 优于 _).
 
-### 自定义 toString() 方法
+##### 自定义 toString() 方法
 
 应该总是成功调用且不要抛异常.
 可自定义 toString() 方法, 但确保你的实现方法满足: (1) 总是成功 (2) 没有其他负面影响. 如果不满足这两个条件, 那么可能会导致严重的问题, 比如, 如果 toString() 调用了包含 assert 的函数, assert 输出导致失败的对象, 这在 toString() 也会被调用.
 
-### 延迟初始化
+##### 延迟初始化
 
 可以
 没必要在每次声明变量时就将其初始化.
 
-### 明确作用域
+##### 明确作用域
 
 任何时候都需要
 任何时候都要明确作用域 - 提高可移植性和清晰度. 例如, 不要依赖于作用域链中的 window 对象. 可能在其他应用中, 你函数中的 window 不是指之前的那个窗口对象.
 
-## 代码格式化
+##### 代码格式化
 
-### 大括号
+###### 大括号
 
 分号会被隐式插入到代码中, 所以你务必在同一行上插入大括号. 例如:
 
@@ -615,7 +613,7 @@ myapp.main = function() {
   }
 ```
 
-### 数组和对象的初始化
+###### 数组和对象的初始化
 
 如果初始值不是很长, 就保持写在单行上:
 
@@ -653,7 +651,7 @@ goog.dom.createDom(goog.dom.TagName.DIV, {
 }, 'Hello, world!');
 ```
 
-### 函数参数
+###### 函数参数
 
 尽量让函数参数在同一行上. 如果一行超过 80 字符, 每个参数独占一行, 并以4个空格缩进, 或者与括号对齐, 以提高可读性. 尽可能不要让每行超过80个字符. 比如下面这样:
 
@@ -693,7 +691,7 @@ function bar(veryDescriptiveArgumentNumberOne,
 }
 ```
 
-### 传递匿名函数
+###### 传递匿名函数
 
 如果参数中有匿名函数, 函数体从调用该函数的左边开始缩进2个空格, 而不是从 function 这个关键字开始. 这让匿名函数更加易读 (不要增加很多没必要的缩进让函数体显示在屏幕的右侧).
 
@@ -711,7 +709,7 @@ prefix.something.reallyLongFunctionName('whatever', function(a1, a2) {
 });
 ```
 
-###更多的缩进
+###### 更多的缩进
 
 事实上, 除了 初始化数组和对象 , 和传递匿名函数外, 所有被拆开的多行文本要么选择与之前的表达式左对齐, 要么以4个(而不是2个)空格作为一缩进层次.
 
@@ -741,7 +739,7 @@ if (searchableCollection(allYourStuff).contains(theStuffYouWant) &&
 }
 ```
 
-### 空行
+###### 空行
 
 使用空行来划分一组逻辑上相关联的代码片段.
 
@@ -755,7 +753,7 @@ nowDoSomethingWith(y);
 andNowWith(z);
 ```
 
-### 二元和三元操作符
+###### 二元和三元操作符
 
 操作符始终跟随着前行, 这样就不用顾虑分号的隐式插入问题. 如果一行实在放不下, 还是按照上述的缩进风格来换行.
 
@@ -772,14 +770,14 @@ var z = a ?
         moreComplicatedC;
 ```
 
-### 括号
+###### 括号
 
 只在需要的时候使用
 不要滥用括号, 只在必要的时候使用它.
 
 对于一元操作符(如delete, typeof 和 void ), 或是在某些关键词(如 return, throw, case, new )之后, 不要使用括号.
 
-### 字符串
+###### 字符串
 
 使用 ' 优于 "
 无论你选择单引号还是双引号都无所谓，在 JavaScript 中它们在解析上没有区别。而**绝对需要**强制的是一致性。 **永远不要在同一个项目中混用两种引号，选择一种，并保持一致**。
@@ -790,14 +788,14 @@ var z = a ?
 var msg = 'This is some HTML';
 ```
 
-## 注释
+###### 注释
 
   * 单行注释放于代码上方为首选
   * 多行也可以
   * 行末注释应被避免!
   * JSDoc 的方式也不错，但需要比较多的时间
 
-### 使用 JSDoc
+###### 使用 JSDoc
 
 我们使用 JSDoc 中的注释风格. 行内注释使用 // 变量 的形式. 另外, 我们也遵循 C++ 代码注释风格 . 这也就是说你需要:
 
@@ -813,7 +811,7 @@ var msg = 'This is some HTML';
 目前很多编译器可从 JSDoc 中提取类型信息, 来对代码进行验证, 删除和压缩. 因此, 你很有必要去熟悉正确完整的 JSDoc .
 
 
-### 顶层/文件注释
+###### 顶层/文件注释
 
 顶层注释用于告诉不熟悉这段代码的读者这个文件中包含哪些东西. 应该提供文件的大体内容, 它的作者, 依赖关系和兼容性信息. 如下:
 
@@ -827,7 +825,7 @@ var msg = 'This is some HTML';
  */
 ```
 
-### 类注释
+###### 类注释
 
 每个类的定义都要附带一份注释, 描述类的功能和用法. 也需要说明构造器参数. 如果该类继承自其它类, 应该使用 @extends 标记. 如果该类是对接口的实现, 应该使用 @implements 标记.
 
@@ -845,7 +843,7 @@ project.MyClass = function(arg1, arg2) {
 goog.inherits(project.MyClass, goog.Disposable);
 ```
 
-### 方法与函数的注释
+###### 方法与函数的注释
 
 提供参数的说明. 使用完整的句子, 并用第三人称来书写方法说明.
 
@@ -881,7 +879,7 @@ goog.ui.Component.prototype.getElement = function() {
 };
 ```
 
-### 属性注释
+###### 属性注释
 
 也需要对属性进行注释.
 
@@ -893,14 +891,14 @@ goog.ui.Component.prototype.getElement = function() {
 project.MyClass.prototype.someProperty = 4;
 ```
 
-### 类型转换的注释
+###### 类型转换的注释
 
 有时, 类型检查不能很准确地推断出表达式的类型, 所以应该给它添加类型标记注释来明确之, 并且必须在表达式和类型标签外面包裹括号.
 
 /** @type {number} */ (x)
 (/** @type {number} */ x)
 
-### JSDoc 缩进
+###### JSDoc 缩进
 
 如果你在 @param, @return, @supported, @this 或 @deprecated 中断行, 需要像在代码中一样, 使用4个空格作为一个缩进层次.
 
@@ -934,7 +932,7 @@ project.MyClass.prototype.method = function(foo) {
 };
 ```
 
-### 枚举
+###### 枚举
 
 ```javascript
 /**
@@ -960,11 +958,9 @@ project.setState = function(state) {
 };
 ```
 
-## Tips and Tricks
+#### JavaScript 小技巧(Tips and Tricks)
 
-### JavaScript 小技巧
-
-#### True 和 False 布尔表达式
+##### True 和 False 布尔表达式
 
 下面的布尔表达式都返回 false:
 
@@ -1005,139 +1001,142 @@ if (y) {
 注意: 还有很多需要注意的地方, 如:
 
 ```javascript
-Boolean('0') == true
-'0' != true
-0 != null
-0 == []
-0 == false
-Boolean(null) == false
-null != true
-null != false
-Boolean(undefined) == false
-undefined != true
-undefined != false
-Boolean([]) == true
-[] != true
-[] == false
-Boolean({}) == true
-{} != true
-{} != false
+    Boolean('0') == true
+    '0' != true
+    0 != null
+    0 == []
+    0 == false
+    Boolean(null) == false
+    null != true
+    null != false
+    Boolean(undefined) == false
+    undefined != true
+    undefined != false
+    Boolean([]) == true
+    [] != true
+    [] == false
+    Boolean({}) == true
+    {} != true
+    {} != false
 ```
 
-#### 条件(三元)操作符 (?:)
+##### 条件(三元)操作符 (?:)
 
 三元操作符用于替代下面的代码:
 
 ```javascript
-if (val != 0) {
-  return foo();
-} else {
-  return bar();
-}
+    if (val != 0) {
+      return foo();
+    } else {
+      return bar();
+    }
 ```
 
 你可以写成:
 ```javascript
-return val ? foo() : bar();
+  return val ? foo() : bar();
 ```
 在生成 HTML 代码时也是很有用的:
 
-var html = '<input type="checkbox"' +
-    (isChecked ? ' checked' : '') +
-    (isEnabled ? '' : ' disabled') +
-    ' name="foo">';
+```javascript
+  var html = '<input type="checkbox"' +
+      (isChecked ? ' checked' : '') +
+      (isEnabled ? '' : ' disabled') +
+      ' name="foo">';
+```
 
-#### && 和 ||
+##### && 和 ||
 
 二元布尔操作符是可短路的, 只有在必要时才会计算到最后一项.
 
 "||" 被称作为 'default' 操作符, 因为可以这样:
 
 ```javascript
-/** @param {*=} opt_win */
-function foo(opt_win) {
-  var win;
-  if (opt_win) {
-    win = opt_win;
-  } else {
-    win = window;
-  }
-  // ...
-}
+    /** @param {*=} opt_win */
+    function foo(opt_win) {
+      var win;
+      if (opt_win) {
+        win = opt_win;
+      } else {
+        win = window;
+      }
+      // ...
+    }
 ```
 
 你可以使用它来简化上面的代码:
 
 ```javascript
-/** @param {*=} opt_win */
-function foo(opt_win) {
-  var win = opt_win || window;
-  // ...
-}
+    /** @param {*=} opt_win */
+    function foo(opt_win) {
+      var win = opt_win || window;
+      // ...
+    }
 ```
 
 "&&" 也可简短代码.比如:
 
 ```javascript
-if (node) {
-  if (node.kids) {
-    if (node.kids[index]) {
-      foo(node.kids[index]);
+    if (node) {
+      if (node.kids) {
+        if (node.kids[index]) {
+          foo(node.kids[index]);
+        }
+      }
     }
-  }
-}
 ```
 你可以像这样来使用:
 
 ```javascript
-if (node && node.kids && node.kids[index]) {
-  foo(node.kids[index]);
-}
+    if (node && node.kids && node.kids[index]) {
+      foo(node.kids[index]);
+    }
 ```
 或者:
 
 ```javascript
-var kid = node && node.kids && node.kids[index];
-if (kid) {
-  foo(kid);
-}
+    var kid = node && node.kids && node.kids[index];
+    if (kid) {
+      foo(kid);
+    }
 ```
 
 不过这样就有点儿过头了:
 ```javascript
-node && node.kids && node.kids[index] && foo(node.kids[index]);
+    node && node.kids && node.kids[index] && foo(node.kids[index]);
 ```
-使用 join() 来创建字符串
+
+##### 使用 join() 来创建字符串
 
 通常是这样使用的:
 
 ```javascript
-function listHtml(items) {
-  var html = '<div class="foo">';
-  for (var i = 0; i < items.length; ++i) {
-    if (i > 0) {
-      html += ', ';
+    function listHtml(items) {
+      var html = '<div class="foo">';
+      for (var i = 0; i < items.length; ++i) {
+        if (i > 0) {
+          html += ', ';
+        }
+        html += itemHtml(items[i]);
+      }
+      html += '</div>';
+      return html;
     }
-    html += itemHtml(items[i]);
-  }
-  html += '</div>';
-  return html;
-}
 ```
 但这样在 IE 下非常慢, 可以用下面的方式:
 
 ```javascript
-function listHtml(items) {
-  var html = [];
-  for (var i = 0; i < items.length; ++i) {
-    html[i] = itemHtml(items[i]);
-  }
-  return '<div class="foo">' + html.join(', ') + '</div>';
-}
+    function listHtml(items) {
+      var html = [];
+      for (var i = 0; i < items.length; ++i) {
+        html[i] = itemHtml(items[i]);
+      }
+      return '<div class="foo">' + html.join(', ') + '</div>';
+    }
 ```
 你也可以是用数组作为字符串构造器, 然后通过 myArray.join('') 转换成字符串. 不过由于赋值操作快于数组的 push(), 所以尽量使用赋值操作.
 
-#### 类型检测 (来源于 jQuery Core Style Guidelines)
+##### 类型检测 (来源于 jQuery Core Style Guidelines)
 
 * 直接类型（实际类型，Actual Types）
 
@@ -1202,7 +1201,6 @@ function listHtml(items) {
 
     ```
 
-
     ```javascript
 
     // `foo` 已经被赋予值 `0`，类型为 `number`
@@ -1242,7 +1240,6 @@ function listHtml(items) {
 
     对于强制类型转换这里有几个例子:
 
-
     ```javascript
 
     var number = 1,
@@ -1276,7 +1273,6 @@ function listHtml(items) {
     bool + "";
     // "false"
     ```
-
 
     ```javascript
 
@@ -1344,7 +1340,7 @@ function listHtml(items) {
 
     ```
 
-#### 对比运算
+##### 对比运算
 
 ```javascript
     // 当只是判断一个 array 是否有长度，相对于使用这个:
@@ -1426,7 +1422,7 @@ function listHtml(items) {
     "", 0, null, undefined, NaN, void 0
 ```
 
-#### Misc
+##### Misc
 
     这个部分将要说明的想法和理念都并非教条。相反更鼓励对现存实践保持好奇，以尝试提供完成一般 JavaScript 编程任务的更好方案。
 
@@ -1472,7 +1468,7 @@ function listHtml(items) {
     ```
 
 
-### 前置逗号（Comma First）
+##### 前置逗号（Comma First）
 
 所有使用这个文档作为基本风格指南的项目都不允许前置逗号的代码格式，除非明确指定或者作者要求。
 
@@ -1481,27 +1477,27 @@ function listHtml(items) {
 Node lists 是通过给节点迭代器加一个过滤器来实现的. 这表示获取他的属性, 如 length 的时间复杂度为 O(n), 通过 length 来遍历整个列表需要 O(n^2).
 
 ```javascript
-var paragraphs = document.getElementsByTagName('p');
-for (var i = 0; i < paragraphs.length; i++) {
-  doSomething(paragraphs[i]);
-}
+    var paragraphs = document.getElementsByTagName('p');
+    for (var i = 0; i < paragraphs.length; i++) {
+      doSomething(paragraphs[i]);
+    }
 ```
 这样做会更好:
 ```javascript
-var paragraphs = document.getElementsByTagName('p');
-for (var i = 0, paragraph; paragraph = paragraphs[i]; i++) {
-  doSomething(paragraph);
-}
+    var paragraphs = document.getElementsByTagName('p');
+    for (var i = 0, paragraph; paragraph = paragraphs[i]; i++) {
+      doSomething(paragraph);
+    }
 ```
 这种方法对所有的 collections 和数组(只要数组不包含 falsy 值) 都适用.
 
 在上面的例子中, 也可以通过 firstChild 和 nextSibling 来遍历孩子节点.
 
 ```javascript
-var parentNode = document.getElementById('foo');
-for (var child = parentNode.firstChild; child; child = child.nextSibling) {
-  doSomething(child);
-}
+    var parentNode = document.getElementById('foo');
+    for (var child = parentNode.firstChild; child; child = child.nextSibling) {
+      doSomething(child);
+    }
 ```
 
 
