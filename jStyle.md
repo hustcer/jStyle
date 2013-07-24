@@ -1159,7 +1159,7 @@ function listHtml(items) {
 
 #### 类型检测 (来源于 jQuery Core Style Guidelines)
 
-    A. 直接类型（实际类型，Actual Types）
+* 直接类型（实际类型，Actual Types）
 
     String:
 
@@ -1210,7 +1210,7 @@ function listHtml(items) {
         object.hasOwnProperty(prop)
         "prop" in object
 
-    B. 转换类型（强制类型，Coerced Types）
+* 转换类型（强制类型，Coerced Types）
 
     考虑下面这个的含义...
 
@@ -1368,47 +1368,36 @@ function listHtml(items) {
 
     ```javascript
 
-    // 4.1.1
     // 当只是判断一个 array 是否有长度，相对于使用这个:
     if (array.length > 0) ...
 
     // ...判断真伪, 请使用这种:
     if (array.length) ...
 
-
-    // 4.1.2
     // 当只是判断一个 array 是否为空，相对于使用这个:
     if (array.length === 0) ...
 
     // ...判断真伪, 请使用这种:
     if (!array.length) ...
 
-
-    // 4.1.3
     // 当只是判断一个 string 是否为空，相对于使用这个:
     if (string !== "") ...
 
     // ...判断真伪, 请使用这种:
     if (string) ...
 
-
-    // 4.1.4
     // 当只是判断一个 string 是为空，相对于使用这个:
     if (string === "") ...
 
     // ...判断真伪, 请使用这种:
     if (!string) ...
 
-
-    // 4.1.5
     // 当只是判断一个引用是为真，相对于使用这个:
     if (foo === true) ...
 
     // ...判断只需像你所想，享受内置功能的好处:
     if (foo) ...
 
-
-    // 4.1.6
     // 当只是判断一个引用是为假，相对于使用这个:
     if (foo === false) ...
 
@@ -1419,8 +1408,6 @@ function listHtml(items) {
     // 如果你 _必须_ 是布尔类型的 false，请这样用：
     if (foo === false) ...
 
-
-    // 4.1.7
     // 如果想计算一个引用可能是 null 或者 undefined，但并不是 false, "" 或者 0,
     // 相对于使用这个：
     if (foo === null || foo === undefined) ...
@@ -1437,7 +1424,6 @@ function listHtml(items) {
 
     ```javascript
 
-    // 4.2.1
     // 类型转换和对比运算说明
 
     // 首次 `===`，`==` 次之 (除非需要松散类型的对比)
@@ -1452,8 +1438,6 @@ function listHtml(items) {
     "1" == 1;
     // true
 
-
-    // 4.2.2
     // 布尔, 真 & 伪
 
     // 布尔:
@@ -1467,12 +1451,11 @@ function listHtml(items) {
 
     ```
 
-
 #### Misc
 
     这个部分将要说明的想法和理念都并非教条。相反更鼓励对现存实践保持好奇，以尝试提供完成一般 JavaScript 编程任务的更好方案。
 
-    A. 提前返回值提升代码的可读性并且没有太多性能上的差别
+* 提前返回值提升代码的可读性并且没有太多性能上的差别
 
     ```javascript
 
@@ -1498,7 +1481,7 @@ function listHtml(items) {
     }
     ```
 
-    B. for循环遍历
+* for循环遍历
 
     ```javascript
     // for循环遍历:
