@@ -1366,6 +1366,7 @@ function listHtml(items) {
 
 #### 对比运算
 
+
     ```javascript
 
     // 当只是判断一个 array 是否有长度，相对于使用这个:
@@ -1420,6 +1421,7 @@ function listHtml(items) {
     null == undefined
 
     ```
+
     总是判断最好、最精确的值，上述是指南而非教条。
 
     ```javascript
