@@ -49,10 +49,7 @@
 ```javascript
 
     // if/else/for/while/try 通常都有小括号、花括号和多行
-    // 这有助于可读
-
-    // 2.A.1.1
-    // 以下是很糟糕的写法
+    // 这有助于可读, 以下是很糟糕的写法
 
     if(condition) doSomething();
 
@@ -404,6 +401,10 @@ var z = a ?
 ```javascript
 var msg = 'This is some HTML';
 ```
+
+###### 前置逗号（Comma First）
+
+请勿使用。所有使用这个文档作为基本风格指南的项目都不允许前置逗号的代码格式，除非明确指定或者作者要求。
 
 ###### 注释
 
@@ -985,6 +986,7 @@ undefined
 while (x != null) {
 ```
 你可以直接写成下面的形式(只要你希望 x 不是 0 和空字符串, 和 false):
+
 ```javascript
 while (x) {
 ```
@@ -1341,6 +1343,25 @@ if (y) {
 
     ```
 
+* 字符串转换为整数
+
+将字符串转换为整数有以下几种方式，可以在[这里](http://jsperf.com/converting-string-to-int/2)进行测试对比：
+```javascript
+    var number1 = "45";
+    // ParseInt() Test on chrome for mac:31% slower
+    var i = parseInt(number1);
+    // Using unary Test on chrome for mac:67% slower
+    var j = +number1;
+    // Number constructor Test on chrome for mac:59% slower
+    var k = Number(number1);
+    // By multplication Test on chrome for mac:69% slower
+    var l = number1 * 1;
+    // parseInt with Test on chrome for mac:radix ±3.85% fastest
+    var m = parseInt(number1, 10);
+```
+所以推荐使用 parseInt(number1, 10) 这种方式，不过 +number1 更为简单，在操作次数极少的情况下也可以酌情使用。
+
+
 ##### 对比运算
 
 ```javascript
@@ -1402,17 +1423,14 @@ if (y) {
     // 类型转换和对比运算说明
     // 首次 `===`，`==` 次之 (除非需要松散类型的对比)
     // `===` 总不做类型转换，这意味着:
-
     "1" === 1;
     // false
 
     // `==` 会转换类型，这意味着:
-
     "1" == 1;
     // true
 
     // 布尔, 真 & 伪
-
     // 布尔:
     true, false
 
@@ -1425,7 +1443,7 @@ if (y) {
 
 ##### Misc
 
-    这个部分将要说明的想法和理念都并非教条。相反更鼓励对现存实践保持好奇，以尝试提供完成一般 JavaScript 编程任务的更好方案。
+这个部分将要说明的想法和理念都并非教条。相反更鼓励对现存实践保持好奇，以尝试提供完成一般 JavaScript 编程任务的更好方案。
 
 * 提前返回值提升代码的可读性并且没有太多性能上的差别
 
@@ -1468,12 +1486,7 @@ if (y) {
 
     ```
 
-
-##### 前置逗号（Comma First）
-
-所有使用这个文档作为基本风格指南的项目都不允许前置逗号的代码格式，除非明确指定或者作者要求。
-
-#### 遍历 Node List
+##### 遍历 Node List
 
 Node lists 是通过给节点迭代器加一个过滤器来实现的. 这表示获取他的属性, 如 length 的时间复杂度为 O(n), 通过 length 来遍历整个列表需要 O(n^2).
 
