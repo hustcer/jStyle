@@ -1468,7 +1468,7 @@ function listHtml(items) {
     ```
 
 
-7. Misc
+#### Misc
 
     这个部分将要说明的想法和理念都并非教条。相反更鼓励对现存实践保持好奇，以尝试提供完成一般 JavaScript 编程任务的更好方案。
 
@@ -1496,7 +1496,11 @@ function listHtml(items) {
       }
       return "quux";
     }
+    ```
 
+    B. for循环遍历
+
+    ```javascript
     // for循环遍历:
     for(var i = 0, l = arr.length; i < l; i++){
         // doSomething here
