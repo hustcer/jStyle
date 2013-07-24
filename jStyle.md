@@ -1720,16 +1720,24 @@ undefined
 ```
 下面段比较糟糕的代码:
 
+```javascript
 while (x != null) {
+```
 你可以直接写成下面的形式(只要你希望 x 不是 0 和空字符串, 和 false):
-
+```javascript
 while (x) {
+```
 如果你想检查字符串是否为 null 或空:
 
+```javascript
 if (y != null && y != '') {
+```
+
 但这样会更好:
 
+```javascript
 if (y) {
+```
 注意: 还有很多需要注意的地方, 如:
 
 ```javascript
