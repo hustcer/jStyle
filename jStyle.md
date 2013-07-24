@@ -5,13 +5,12 @@
 * [Idiomatic 风格](https://github.com/rwldrn/idiomatic.js/tree/master/translations/zh_CN)
 * [Google JavaScript 编码规范指南](http://wyz.67ge.com/google-js/javascriptguide.xml)
 
-### 基本原则: 无论有多少人在维护，所有在代码仓库中的代码理应看起来像同一个人写的。
-
-## 参考规范
+#### 参考规范
 
 * [ECMAScript 5.1 注解版](http://es5.github.com/)
 * [EcmaScript 语言规范, 5.1 版](http://ecma-international.org/ecma-262/5.1/)
 
+#### 基本原则: 无论有多少人在维护，所有在代码仓库中的代码理应看起来像同一个人写的。
 
 ## 目录
 
@@ -26,9 +25,11 @@
 
 项目必须总是提供一些通用的方法来检验（can be linted）、测试和压缩源码以为产品阶段使用做准备。对于此类工作 Ben Alman 所写的 [grunt](https://github.com/cowboy/grunt) 可谓首屈一指，并已替代这个仓库的 “kits/” 目录作官方工具。
 
-## 详细JavaScript 语言规范
+### 规范详情
 
-### 变量
+#### JavaScript 语言规范
+
+##### 变量
 
 声明变量必须加上 var 关键字.
 当你没有写 var, 变量就会暴露在全局上下文中, 这样很可能会和现有变量冲突. 另外, 如果没有加上, 很难明确该变量的作用域是什么, 变量也很可能像在局部作用域中, 很轻易地泄漏到 Document 或者 Window 中, 所以务必用 var 去声明变量.
@@ -84,7 +85,7 @@
   }
 ```
 
-### 常量
+##### 常量
 
 常量的形式如: NAMES_LIKE_THIS, 即使用大写字符, 并用下划线分隔. 你也可用 @const 标记来指明它是一个常量. 但请永远不要使用 const 关键词.
 
@@ -120,7 +121,7 @@ Decision:
 
 至于关键词 const, 因为 IE 不能识别, 所以不要使用.
 
-### 分号
+##### 分号
 
 总是使用分号.
 
@@ -165,7 +166,7 @@ JavaScript 的语句以分号作为结束符, 除非可以非常准确推断某�
 
 遗漏分号有时会出现很奇怪的结果, 所以确保语句以分号结束.
 
-### 块内函数声明
+##### 块内函数声明
 
 不要在块内声明一个函数，不要写成:
 
@@ -181,12 +182,12 @@ JavaScript 的语句以分号作为结束符, 除非可以非常准确推断某�
     var foo = function() {}
   }
 ```
-### 标准特性
+##### 标准特性
 
 标准特性总是优于非标准特性.
 最大化可移植性和兼容性, 尽量使用标准方法而不是用非标准方法, (比如, 优先用string.charAt(3) 而不用 string[3] , 通过 DOM 原生函数访问元素, 而不是使用应用封装好的快速接口.
 
-### 不要封装基本类型
+##### 不要封装基本类型
 
 没有任何理由去封装基本类型, 另外还存在一些风险:
 
@@ -209,7 +210,7 @@ JavaScript 的语句以分号作为结束符, 除非可以非常准确推断某�
 有时用作 number, string 或 boolean时, 类型的转换会非常实用.
 
 
-### 闭包
+##### 闭包
 
 可以, 但小心使用.
 闭包也许是 JS 中最有用的特性了. 有一份比较好的介绍闭包原理的[文档](http://jibbering.com/faq/notes/closures/).
@@ -233,7 +234,7 @@ JavaScript 的语句以分号作为结束符, 除非可以非常准确推断某�
   }
 ```
 
-### eval()
+##### eval()
 
 只用于解析序列化串 (如: 解析 RPC 响应)
 eval() 会让程序执行的比较混乱, 当 eval() 里面包含用户输入的话就更加危险. 可以用其他更佳的, 更清晰, 更安全的方式写你的代码, 所以一般情况下请不要使用 eval(). 当碰到一些需要解析序列化串的情况下(如, 计算 RPC 响应), 使用 eval 很容易实现.
@@ -274,7 +275,7 @@ eval() 会让程序执行的比较混乱, 当 eval() 里面包含用户输入的
   // userOnline is now true.
 ```
 
-### with() {}
+##### with() {}
 
 不要使用
 使用 with 让你的代码在语义上变得不清晰. 因为 with 的对象, 可能会与局部变量产生冲突, 从而改变你程序原本的用义. 下面的代码是干嘛的?
@@ -288,17 +289,17 @@ eval() 会让程序执行的比较混乱, 当 eval() 里面包含用户输入的
 
 答案: 任何事. 局部变量 x 可能被 foo 的属性覆盖, 当它定义一个 setter 时, 在赋值 3 后会执行很多其他代码. 所以不要使用 with 语句.
 
-### this
+##### this
 
 仅在对象构造器, 方法, 闭包中使用.
 this 的语义很特别. 有时它引用一个全局对象(大多数情况下), 调用者的作用域(使用 eval时), DOM 树中的节点(添加事件处理函数时), 新创建的对象(使用一个构造器), 或者其他对象(如果函数被 call() 或 apply()).
 
 使用时很容易出错, 所以只有在下面两个情况时才能使用:
 
-在构造器中
-对象的方法(包括创建的闭包)中
+* 在构造器中
+* 对象的方法(包括创建的闭包)中
 
-### for-in 循环
+##### for-in 循环
 
 只用于 object/map/hash 的遍历
 对 Array 用 for-in 循环有时会出错. 因为它并不是从 0 到 length - 1 进行遍历, 而是所有出现在对象及其原型链的键值. 下面就是一些失败的使用案例:
@@ -325,8 +326,8 @@ this 的语义很特别. 有时它引用一个全局对象(大多数情况下), 
   a = new Array;
   a[3] = 3;
   printArray(a);  // This is wrong again.
-  而遍历数组通常用最普通的 for 循环.
 
+  // 而遍历数组通常用最普通的 for 循环.
   function printArray(arr) {
     var l = arr.length;
     for (var i = 0; i < l; i++) {
@@ -335,10 +336,9 @@ this 的语义很特别. 有时它引用一个全局对象(大多数情况下), 
   }
 ```
 
-### 多行字符串
+##### 多行字符串
 
-不要使用
-不要这样写长字符串:
+不要使用. 不要这样写长字符串:
 
 ```javascript
 var myString = 'A rather long string of English text, an error message \
@@ -351,7 +351,7 @@ var myString = 'A rather long string of English text, an error message \
 
 在编译时, 不能忽略行起始位置的空白字符; "\" 后的空白字符会产生奇怪的错误; 虽然大多数脚本引擎支持这种写法, 但它不是 ECMAScript 的标准规范.
 
-### Array 和 Object 直接量
+##### Array 和 Object 直接量
 
 使用 Array 和 Object 语法, 而不使用 Array 和 Object 构造器.
 
@@ -406,14 +406,14 @@ var myString = 'A rather long string of English text, an error message \
   };
 ```
 
-### 不要修改内置对象的原型
+##### 不要修改内置对象的原型
 
 千万不要修改内置对象, 如 Object.prototype 和 Array.prototype 的原型. 而修改内置对象, 如 Function.prototype 的原型, 虽然少危险些, 但仍会导致调试时的诡异现象. 所以也要避免修改其原型.
 
 
-## JavaScript 编码风格
+#### JavaScript 编码风格
 
-### 空白
+##### 空白
 
   - 永远都不要混用空格和Tab。
   - 开始一个项目，在写代码之前，选择软缩进（空格）或者 Tab（作为缩进方式），并将其作为**最高准则**。
@@ -424,11 +424,11 @@ var myString = 'A rather long string of English text, an error message \
       - 去掉空行的空格
       - 提交和对比更具可读性
 
-### 行末和空行
+##### 行末和空行
 
     留白会破坏 diff 并使diff 结果变得更不可读。考虑包括一个预提交的 hook 自动删除行末和空行中的空格。
 
-### 花括号, 换行
+##### 花括号, 换行
 
     ```javascript
 
@@ -446,16 +446,16 @@ var myString = 'A rather long string of English text, an error message \
 
     ```
 
-### 命名
+##### 命名
 
 通常, 使用 functionNamesLikeThis, variableNamesLikeThis, ClassNamesLikeThis, EnumNamesLikeThis, methodNamesLikeThis, 和 SYMBOLIC_CONSTANTS_LIKE_THIS.
 
-### 属性和方法
+###### 属性和方法
 
 文件或类中的 私有 属性, 变量和方法名应该以下划线 "_" 开头.
 保护 属性, 变量和方法名不需要下划线开头, 和公共变量名一样.
 
-### 方法和函数参数
+###### 方法和函数参数
 
 可选参数以 opt_ 开头.
 
@@ -463,16 +463,16 @@ var myString = 'A rather long string of English text, an error message \
 
 可选和可变参数应该在 @param 标记中说明清楚. 虽然这两个规定对编译器没有任何影响, 但还是请尽量遵守
 
-### Getters 和 Setters
+###### Getters 和 Setters
 
 Getters 和 setters 并不是必要的. 但只要使用它们了, 就请将 getters 命名成 getFoo() 形式, 将 setters 命名成 setFoo(value) 形式. (对于布尔类型的 getters, 使用 isFoo() 也可.)
 
-### 命名空间
+##### 命名空间
 
 JavaScript 不支持包和命名空间.
 不容易发现和调试全局命名的冲突, 多个系统集成时还可能因为命名冲突导致很严重的问题. 为了提高 JavaScript 代码复用率, 我们遵循下面的约定以避免冲突.
 
-#### 为全局代码使用命名空间
+###### 为全局代码使用命名空间
 
 在全局作用域上, 使用一个唯一的, 与工程/库相关的名字作为前缀标识. 比如, 你的工程是 "Project Sloth", 那么命名空间前缀可取为 sloth.*.
 
@@ -494,11 +494,11 @@ sloth.sleep = function() {
 };
 ```
 
-#### 明确命名空间所有权
+###### 明确命名空间所有权
 
 当选择了一个子命名空间, 请确保父命名空间的负责人知道你在用哪个子命名空间, 比如说, 你为工程 'sloths' 创建一个 'hats' 子命名空间, 那确保 Sloth 团队人员知道你在使用 sloth.hats.
 
-#### 外部代码和内部代码使用不同的命名空间
+###### 外部代码和内部代码使用不同的命名空间
 
 "外部代码" 是指来自于你代码体系的外部, 可以独立编译. 内外部命名应该严格保持独立. 如果你使用了外部库, 他的所有对象都在 foo.hats.* 下, 那么你自己的代码不能在 foo.hats.*下命名, 因为很有可能其他团队也在其中命名.
 
