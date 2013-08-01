@@ -25,14 +25,16 @@
 
 * JS/CSS 文件编码统一采用 UTF8编码
 * 代码缩进使用4个空格缩进替代 tab 缩进
-* 如果编辑器支持在文件保存的时候自动删除行末和空行中的空格
+* 如果编辑器支持在文件保存的时候自动删除行末和空行中的空格(注意:要么全部采用，要么全不采用，否则会产生过多的diff信息)
 * JS/CSS 最终发布到产品中的时候需要被压缩，以减小静态资源文件大小，提升页面加载速度
 * JS代码提交之前需要通过jslint检查，不能存在明显问题
 * JS里声明变量必须加上 var 关键字，推荐一个 var 同时声明多个变量，或者一组有逻辑关系的变量，避免一个变量一个 var.
 * JS里使用单引号 (') 优于双引号 (").
-* JS代码结尾统一加';'
+* JS代码结尾统一约定加';'
 * 没有特殊原因避免使用 with/eval
 * 对于if/else等后面的语句即使只有一行代码也需要在该行代码的首尾加上'{}'.
+* 字符串拼接在少量的情况下可以使用'+', 大量的时候使用数组 join(), 尽可能采用模板引擎渲染：比如jsRender等.
+* 对于数组赋值操作快于 push()操作, 所以尽量使用赋值操作.
 * 变量比较的时候总是判断最好、最精确的值，推荐使用'==='少用'=='(可以参考[jQuery](https://github.com/jquery/jquery/blob/master/src/core.js)代码里面, 可以看到只有在'== null'的时候才可能使用'=='，其他情况一律使用的是'===').
 * JS里变量命名规范使用 functionNamesLikeThis, variableNamesLikeThis, ClassNamesLikeThis, EnumNamesLikeThis, methodNamesLikeThis, 和 SYMBOLIC_CONSTANTS_LIKE_THIS.
 * JS文件名应该使用小写字符, 以避免在有些系统平台上不识别大小写的命名方式. 文件名以.js结尾, 不要包含除 '-' 和 '_' 外的标点符号(使用 '-' 优于 '_').
@@ -817,7 +819,7 @@ Decision:
 1. 当 resultOfOperation() 返回非 NaN 时, 就会调用die, 其结果也会赋给 THINGS_TO_EAT.
 为什么?
 
-JavaScript 的语句以分号作为结束符, 除非可以非常准确推断某结束位置才会省略分号. 上面的例子产出错误, 均是在语句中声明了函数/对象/数组直接量, 但 闭括号('}'或']')并不足以表示该语句的结束. 在 JavaScript 中, 只有当语句后的下一个符号是后缀或括号运算符时, 才会认为该语句的结束. [JS分号自动插入机制](http://justjavac.iteye.com/blog/1852405)
+JavaScript 的语句以分号作为结束符, 除非可以非常准确推断某结束位置才会省略分号. 上面的例子产出错误, 均是在语句中声明了函数/对象/数组直接量, 但 闭括号('}'或']')并不足以表示该语句的结束. 在 JavaScript 中, 只有当语句后的下一个符号是后缀或括号运算符时, 才会认为该语句的结束. 参考：[JS分号自动插入机制](http://justjavac.iteye.com/blog/1852405)
 
 遗漏分号有时会出现很奇怪的结果, 所以确保语句以分号结束.
 
@@ -1592,34 +1594,6 @@ if (y) {
     // 前一种方式只会计算一次 arr 的长度，而后一种方式会计算 arr.length + 1 次，效率比较低
 
     ```
-
-##### 遍历 Node List
-
-Node lists 是通过给节点迭代器加一个过滤器来实现的. 这表示获取他的属性, 如 length 的时间复杂度为 O(n), 通过 length 来遍历整个列表需要 O(n^2).
-
-```javascript
-    var paragraphs = document.getElementsByTagName('p');
-    for (var i = 0; i < paragraphs.length; i++) {
-      doSomething(paragraphs[i]);
-    }
-```
-这样做会更好:
-```javascript
-    var paragraphs = document.getElementsByTagName('p');
-    for (var i = 0, paragraph; paragraph = paragraphs[i]; i++) {
-      doSomething(paragraph);
-    }
-```
-这种方法对所有的 collections 和数组(只要数组不包含 falsy 值) 都适用.
-
-在上面的例子中, 也可以通过 firstChild 和 nextSibling 来遍历孩子节点.
-
-```javascript
-    var parentNode = document.getElementById('foo');
-    for (var child = parentNode.firstChild; child; child = child.nextSibling) {
-      doSomething(child);
-    }
-```
 
 
 ## 保持一致性.
