@@ -36,7 +36,7 @@
 * 变量比较的时候总是判断最好、最精确的值，推荐使用'==='少用'=='(可以参考[jQuery](https://github.com/jquery/jquery/blob/master/src/core.js)代码里面, 可以看到只有在'== null'的时候才可能使用'=='，其他情况一律使用的是'===').
 * JS里变量命名规范使用 functionNamesLikeThis, variableNamesLikeThis, ClassNamesLikeThis, EnumNamesLikeThis, methodNamesLikeThis, 和 SYMBOLIC_CONSTANTS_LIKE_THIS.
 * JS文件名应该使用小写字符, 以避免在有些系统平台上不识别大小写的命名方式. 文件名以.js结尾, 不要包含除 '-' 和 '_' 外的标点符号(使用 '-' 优于 '_').
-* 鉴于有很多代码是复制粘贴过来的，所以大家要保证自己的代码风格良好易于阅读，不然别人拷过去后不好的风格就蔓延开了，而且会导致其他人效仿。
+* 鉴于有很多代码是复制粘贴过来的，所以大家要保证自己的代码风格良好且易于阅读，不然别人拷过去后不好的风格就蔓延开了，而且会导致其他人效仿。
 * 对于复制粘贴然后做相应修改以实现功能的代码，请务必清理干净，不要有'忘了删除的不影响逻辑的代码'，同时记得将变量名改成适合当前业务场景的有意义的变量名, 不要因为不影响逻辑就保留原来的不适合当前场景的名字
 * 不要使用魔法数字，尽量定义一个常量来表示该数字，并加上相应的注释，否则后期可能出现因为数字变化而导致牵一发而动全身，需要到处修改，增加维护成本
 * 在开发相应功能的时候尽量抽象化、组件化、通用化：考虑这个东西其他地方会不会用到，能不能做成一个组件？而不是类似的代码到处复制、修改或者让大家都去写一遍
@@ -267,23 +267,6 @@ foo.hats.BowlerHat = function() {
 };
 ```
 
-如果你需要在外部命名空间中定义新的 API, 那么你应该直接导出一份外部库, 然后在这份代码中修改. 在你的内部代码中, 应该通过他们的内部名字来调用内部 API , 这样保持一致性可让编译器更好的优化你的代码.
-
-```javascript
-foo.provide('googleyhats.BowlerHat');
-
-foo.require('foo.hats');
-
-/**
- * @constructor
- * @extend {foo.hats.RoundHat}
- */
-googleyhats.BowlerHat = function() {
-  ...
-};
-
-goog.exportSymbol('foo.hats.BowlerHat', googleyhats.BowlerHat);
-```
 
 ##### 重命名那些名字很长的变量, 提高可读性
 
@@ -650,13 +633,6 @@ goog.ui.Component.prototype.getElement = function() {
 project.MyClass.prototype.someProperty = 4;
 ```
 
-###### 类型转换的注释
-
-有时, 类型检查不能很准确地推断出表达式的类型, 所以应该给它添加类型标记注释来明确之, 并且必须在表达式和类型标签外面包裹括号.
-
-/** @type {number} */ (x)
-(/** @type {number} */ x)
-
 ###### JSDoc 缩进
 
 如果你在 @param, @return, @supported, @this 或 @deprecated 中断行, 需要像在代码中一样, 使用4个空格作为一个缩进层次.
@@ -829,29 +805,19 @@ Decision:
       // Some initialization code wrapped in a function to create a scope for locals.
     })();
 
-    var x = {
-      'i': 1,
-      'j': 2
-    }  // No semicolon here.
-
-    // 2.  Trying to do one thing on Internet Explorer and another on Firefox.
-    // I know you'd never write code like this, but throw me a bone.
-    [normalVersion, ffVersion][isIE]();
-
     var THINGS_TO_EAT = [apples, oysters, sprayOnCheese]  // No semicolon here.
 
-    // 3. conditional execution a la bash
+    // 2. conditional execution a la bash
     -1 == resultOfOperation() || die();
 
   ```
 这段代码会发生些什么诡异事呢?
 
 1. 报 JavaScript 错误 - 例子1上的语句会解释成, 一个函数带一匿名函数作为参数而被调用, 返回42后, 又一次被"调用", 这就导致了错误.
-1. 例子2中, 你很可能会在运行时遇到 'no such property in undefined' 错误, 原因是代码试图这样 x[ffVersion][isIE]() 执行.
 1. 当 resultOfOperation() 返回非 NaN 时, 就会调用die, 其结果也会赋给 THINGS_TO_EAT.
 为什么?
 
-JavaScript 的语句以分号作为结束符, 除非可以非常准确推断某结束位置才会省略分号. 上面的几个例子产出错误, 均是在语句中声明了函数/对象/数组直接量, 但 闭括号('}'或']')并不足以表示该语句的结束. 在 JavaScript 中, 只有当语句后的下一个符号是后缀或括号运算符时, 才会认为该语句的结束.
+JavaScript 的语句以分号作为结束符, 除非可以非常准确推断某结束位置才会省略分号. 上面的例子产出错误, 均是在语句中声明了函数/对象/数组直接量, 但 闭括号('}'或']')并不足以表示该语句的结束. 在 JavaScript 中, 只有当语句后的下一个符号是后缀或括号运算符时, 才会认为该语句的结束. [JS分号自动插入机制](http://justjavac.iteye.com/blog/1852405)
 
 遗漏分号有时会出现很奇怪的结果, 所以确保语句以分号结束.
 
@@ -911,7 +877,7 @@ JavaScript 的语句以分号作为结束符, 除非可以非常准确推断某�
     element.onclick = function() { /* uses a and b */ };
   }
 ```
-这里, 即使没有使用 element, 闭包也保留了 element, a 和 b 的引用, . 由于 element 也保留了对闭包的引用, 这就产生了循环引用, 这就不能被 GC 回收. 这种情况下, 可将代码重构为:
+这里, 即使没有使用 element, 闭包也保留了 element, a 和 b 的引用, 由于 element 也保留了对闭包的引用, 这就产生了循环引用, 这就不能被 GC 回收. 这种情况下, 可将代码重构为:
 
 ```javascript
   function foo(element, a, b) {
