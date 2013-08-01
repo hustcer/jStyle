@@ -55,7 +55,7 @@
 * 目前系统采用类库列表：
   1. Extjs
   1. [jQuery](https://github.com/jquery/jquery)
-  1. 绘图类库: [d3.js](https://github.com/mbostock/d3)/jit(https://github.com/philogb/jit)
+  1. 绘图类库: [d3.js](https://github.com/mbostock/d3)/[jit](https://github.com/philogb/jit)
   1. 基于d3进一步封装的类库: [nvd3.js](https://github.com/novus/nvd3)
   1. 非ExtJs页面autocomplete类下拉列表: [select2.js](https://github.com/ivaynberg/select2)
   1. Grid拖拽布局: [gridster.js](https://github.com/ducksboard/gridster.js)
