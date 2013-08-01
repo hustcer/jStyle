@@ -54,15 +54,15 @@
 * JS类库优先采用系统中已经采用的类库，如果现有类库不能满足要求可以一起讨论决定引入新类库，尽量不要引入过多类库以免维护不便
 * 目前系统采用类库列表：
   1. Extjs
-  1. jQuery(https://github.com/jquery/jquery)
-  1. 绘图类库: d3.js(https://github.com/mbostock/d3)/jit(https://github.com/philogb/jit)
-  1. 基于d3进一步封装的类库: nvd3.js(https://github.com/novus/nvd3)
-  1. 非ExtJs页面autocomplete类下拉列表: select2.js(https://github.com/ivaynberg/select2)
-  1. Grid拖拽布局: gridster.js(https://github.com/ducksboard/gridster.js)
-  1. 代码高亮着色编辑器: codemirror(https://github.com/marijnh/CodeMirror)
-  1. 非ExtJs页面弹出框: jquery.simplemodal.js(https://github.com/ericmmartin/simplemodal)
-  1. 非ExtJs页面JSON解析: json2.js(https://github.com/douglascrockford/JSON-js)
-  1. 键盘快捷键处理: mousetrap.js(https://github.com/ccampbell/mousetrap)
+  1. [jQuery](https://github.com/jquery/jquery)
+  1. 绘图类库: [d3.js](https://github.com/mbostock/d3)/jit(https://github.com/philogb/jit)
+  1. 基于d3进一步封装的类库: [nvd3.js](https://github.com/novus/nvd3)
+  1. 非ExtJs页面autocomplete类下拉列表: [select2.js](https://github.com/ivaynberg/select2)
+  1. Grid拖拽布局: [gridster.js](https://github.com/ducksboard/gridster.js)
+  1. 代码高亮着色编辑器: [codemirror](https://github.com/marijnh/CodeMirror)
+  1. 非ExtJs页面弹出框: [jquery.simplemodal.js](https://github.com/ericmmartin/simplemodal)
+  1. 非ExtJs页面JSON解析: [json2.js](https://github.com/douglascrockford/JSON-js)
+  1. 键盘快捷键处理: [mousetrap.js](https://github.com/ccampbell/mousetrap)
 
 项目必须总是提供一些通用的方法来检验（can be linted）、测试和压缩源码以为产品阶段使用做准备。对于此类工作 Ben Alman 所写的 [grunt](https://github.com/cowboy/grunt) 可谓首屈一指。通过简单的配置即可完成自动对CSS进行检查/压缩/合并，对JS进行检查/压缩/合并，对html文件进行压缩，删除创建目录，拷贝文件，压缩打包等，十分方便。
 参考的grunt配置文件:
