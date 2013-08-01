@@ -51,28 +51,28 @@
 
 #### 项目类库
 
-* JS类库优先采用系统中已经采用的类库，如果现有类库不能满足要求可以一起讨论决定引入新类库，尽量不要引入过多类库以免维护不便
+* JS类库优先采用系统中已有类库，如果现有类库不能满足要求可以一起讨论是否引入新类库，尽量不要引入过多类库以免维护不便
 * 目前系统采用第三方类库列表：
   1. Extjs
   1. [jQuery](https://github.com/jquery/jquery)
-  1. [Bootstrap](https://github.com/twbs/bootstrap)
   1. 绘图类库: [d3.js](https://github.com/mbostock/d3)/[jit](https://github.com/philogb/jit)
   1. 基于d3进一步封装的类库: [nvd3.js](https://github.com/novus/nvd3)
+  1. [Bootstrap](https://github.com/twbs/bootstrap)
   1. 非ExtJs页面autocomplete类下拉列表: [select2.js](https://github.com/ivaynberg/select2)
-  1. Grid拖拽布局: [gridster.js](https://github.com/ducksboard/gridster.js)
+  1. Grid拖拽布局组件: [gridster.js](https://github.com/ducksboard/gridster.js)
   1. 代码高亮着色编辑器: [codemirror](https://github.com/marijnh/CodeMirror)
   1. 非ExtJs页面弹出框: [jquery.simplemodal.js](https://github.com/ericmmartin/simplemodal)
   1. 非ExtJs页面JSON解析: [json2.js](https://github.com/douglascrockford/JSON-js)
   1. 键盘快捷键处理: [mousetrap.js](https://github.com/ccampbell/mousetrap)
 
 * 一方库(js/common/或其子目录下)：
-  1. util.js 通用js工具库
-  1. component.js 通用ExtJS定制组件库
-  1. jsondiff.js Json对象比较组件
-  1. script-editor.js 脚本编辑查看组件
-  1. selector.js 通用选择器组件
-  1. pagingtoolbar.js extjs翻页组件
-  1. zh_cn.js 系统对应的extjs翻译文件
+  1. 通用js工具库: util.js
+  1. 通用ExtJS定制组件库: component.js
+  1. Json对象比较组件: jsondiff.js
+  1. 脚本编辑查看组件: script-editor.js
+  1. 通用选择器组件: selector.js
+  1. ExtJS翻页组件: pagingtoolbar.js 
+  1. 系统对应的ExtJS翻译文件: zh_cn.js
 
 项目必须总是提供一些通用的方法来检验（can be linted）、测试和压缩源码以为产品阶段使用做准备。对于此类工作 Ben Alman 所写的 [grunt](https://github.com/cowboy/grunt) 可谓首屈一指。通过简单的配置即可完成自动对CSS进行检查/压缩/合并，对JS进行检查/压缩/合并，对html文件进行压缩，删除创建目录，拷贝文件，压缩打包等，十分方便。
 参考的grunt配置文件:
