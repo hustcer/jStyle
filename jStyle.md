@@ -31,12 +31,15 @@
 * JS/CSS 最终发布到产品中的时候需要被压缩，以减小静态资源文件大小，提升页面加载速度
 * JS代码提交之前需要通过jslint检查，不能存在明显问题
 * JS里声明变量必须加上 var 关键字，推荐一个 var 同时声明多个变量，或者一组有逻辑关系的变量，避免一个变量一个 var.
+* 使用 Array 和 Object 语法直接声明并将其初始化,更易读且性能更好, 而不使用 Array 和 Object 构造器.
 * JS里使用单引号 (') 优于双引号 (").
 * JS代码结尾统一约定加';'
 * 没有特殊原因避免使用 with/eval
 * 对于if/else等后面的语句即使只有一行代码也需要在该行代码的首尾加上'{}'.
 * 字符串拼接在少量的情况下可以使用'+', 大量的时候使用数组 join(), 或者尽可能采用模板引擎渲染：比如jsRender等.
 * 对于数组赋值操作快于 push()操作, 所以尽量使用赋值操作.
+* for循环遍历：for(var i = 0, l = arr.length; i < l; i++){// doSomething here } 采用这种方式而不是 i < arr.length, 前一种方式只会计算一次 arr 的长度，而后一种方式会计算数组长度 arr.length + 1 次，效率比较低
+* 字符串转换为整数，推荐使用 parseInt(num, 10) 这种方式，+num 写法简单，在操作次数极少的情况下也可以酌情使用。
 * 变量比较的时候总是判断最好、最精确的值，推荐使用'==='少用'=='(可以参考[jQuery](https://github.com/jquery/jquery/blob/master/src/core.js)代码里面, 可以看到只有在'== null'的时候才可能使用'=='，其他情况一律使用的是'===').
 * JS里变量命名规范使用 functionNamesLikeThis, variableNamesLikeThis, ClassNamesLikeThis, EnumNamesLikeThis, methodNamesLikeThis, 和 SYMBOLIC_CONSTANTS_LIKE_THIS.
 * JS文件名应该使用小写字符, 以避免在有些系统平台上不识别大小写的命名方式. 文件名以.js结尾, 不要包含除 '-' 和 '_' 外的标点符号(使用 '-' 优于 '_').
