@@ -55,8 +55,9 @@
 * 目前系统采用第三方类库列表：
   1. Extjs
   1. [jQuery](https://github.com/jquery/jquery)
-  1. 绘图类库: [d3.js](https://github.com/mbostock/d3)/[jit](https://github.com/philogb/jit)
+  1. 绘图类库: [d3.js](https://github.com/mbostock/d3)(优先采用)/[jit](https://github.com/philogb/jit)
   1. 基于d3进一步封装的类库: [nvd3.js](https://github.com/novus/nvd3)
+  1. 仪表盘组件: gauge.js
   1. [Bootstrap](https://github.com/twbs/bootstrap)
   1. 非ExtJs页面autocomplete类下拉列表: [select2.js](https://github.com/ivaynberg/select2)
   1. Grid拖拽布局组件: [gridster.js](https://github.com/ducksboard/gridster.js)
@@ -73,6 +74,8 @@
   1. 通用选择器组件: selector.js
   1. ExtJS翻页组件: pagingtoolbar.js 
   1. 系统对应的ExtJS翻译文件: zh_cn.js
+
+#### 前端资源Build
 
 项目必须总是提供一些通用的方法来检验（can be linted）、测试和压缩源码以为产品阶段使用做准备。对于此类工作 Ben Alman 所写的 [grunt](https://github.com/cowboy/grunt) 可谓首屈一指。通过简单的配置即可完成自动对CSS进行检查/压缩/合并，对JS进行检查/压缩/合并，对html文件进行压缩，删除创建目录，拷贝文件，压缩打包等，十分方便。
 参考的grunt配置文件:
