@@ -41,11 +41,13 @@
 1. for循环遍历：for(var i = 0, l = arr.length; i < l; i++){// doSomething here } 采用这种方式而不是 i < arr.length, 前一种方式只会计算一次 arr 的长度，而后一种方式会计算数组长度 arr.length + 1 次，效率比较低
 1. 字符串转换为整数，推荐使用 parseInt(num, 10) 这种方式，+num 写法简单，在操作次数极少的情况下也可以酌情使用。
 1. 变量比较的时候总是判断最好、最精确的值，推荐使用'==='少用'=='(可以参考[jQuery](https://github.com/jquery/jquery/blob/master/src/core.js)代码里面, 可以看到只有在'== null'的时候才可能使用'=='，其他情况一律使用的是'===').
-1. JS里变量命名规范使用 functionNamesLikeThis, variableNamesLikeThis, ClassNamesLikeThis, EnumNamesLikeThis, methodNamesLikeThis, 和 SYMBOLIC_CONSTANTS_LIKE_THIS.
-1. JS文件名应该使用小写字符, 以避免在有些系统平台上不识别大小写的命名方式. 文件名以.js结尾, 不要包含除 '-' 和 '_' 外的标点符号(使用 '-' 优于 '_').
+1. JS里变量命名规范使用 functionNamesLikeThis, variableNamesLikeThis, ClassNamesLikeThis, EnumNamesLikeThis, methodNamesLikeThis, 和 SYMBOLIC_CONSTANTS_LIKE_THIS, 尤其不要跟python里面的变量命名方式混淆了.
+1. JS文件名应该使用小写字符, 以避免在有些系统平台上不识别大小写的命名方式. 文件名以.js结尾, 不要包含除 '-' 和 '_' 外的标点符号(使用 '-' 优于 '_'), 我们约定统一使用js-file-name.js这种类型，对于template文件命名方式为 template_name.html形式.
+1. 所有的html DOM里面的id, Extjs配置项里面的id 以及所有样式里面的 class命名使用中划线，如'id-name'/'class-name'.
 1. 公共的js第三方类库放在static/js/common/lib下，jQuery相关类库放在static/js/common/lib/jQplugin下，我们自己开发的公共类库放在static/js/common下
 1. 鉴于有很多代码是复制粘贴过来的，所以大家要保证自己的代码风格良好且易于阅读，不然别人拷过去后不好的风格就蔓延开了，而且会导致其他人效仿。
 1. 对于复制粘贴然后做相应修改以实现功能的代码，请务必清理干净，不要有'忘了删除的不影响逻辑的代码'，同时记得将变量名改成适合当前业务场景的有意义的变量名, 不要因为不影响逻辑就保留原来的不适合当前场景的名字
+1. 对于系统中出现的大段注释的、过时的、废弃的代码务必及时清理干净，谁制造谁清理，否则其他人也不敢清理，越积越多
 1. 不要使用魔法数字，尽量定义一个常量来表示该数字，并加上相应的注释，否则后期可能出现因为数字变化而导致牵一发而动全身，需要到处修改，增加维护成本
 1. 注释尽量采用jsdoc的代码注释风格，普通业务代码不做要求，不过通用js类库要求尽量详尽以方便其他人阅读使用
 1. 在开发相应功能的时候尽量抽象化、组件化、通用化：考虑这个东西其他地方会不会用到，能不能做成一个组件？而不是类似的代码到处复制、修改或者让大家都去写一遍
