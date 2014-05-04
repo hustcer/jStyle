@@ -42,8 +42,13 @@
 1. 字符串转换为整数，推荐使用 parseInt(num, 10) 这种方式，+num 写法简单，在操作次数极少的情况下也可以酌情使用。
 1. 变量比较的时候总是判断最好、最精确的值，推荐使用'==='少用'=='(可以参考[jQuery](https://github.com/jquery/jquery/blob/master/src/core.js)代码里面, 可以看到只有在'== null'的时候才可能使用'=='，其他情况一律使用的是'===').
 1. JS里变量命名规范使用 functionNamesLikeThis, variableNamesLikeThis, ClassNamesLikeThis, EnumNamesLikeThis, methodNamesLikeThis, 和 SYMBOLIC_CONSTANTS_LIKE_THIS, 尤其不要跟python里面的变量命名方式混淆了.
+1. JS模块里面私有的方法前面可以加'_',公有方法不加，但是函数内的局部变量就没必要加'_'了；
 1. JS文件名应该使用小写字符, 以避免在有些系统平台上不识别大小写的命名方式. 文件名以.js结尾, 不要包含除 '-' 和 '_' 外的标点符号(使用 '-' 优于 '_'), 我们约定统一使用js-file-name.js这种类型，对于template文件命名方式为 template_name.html形式.
 1. 所有的html DOM里面的id, Extjs配置项里面的id 以及所有样式里面的 class命名使用中划线，如'id-name'/'class-name'.
+1. 代表jQuery对象的变量前面可以加个'$',这样一眼就能看出来是个jQuery对象。
+1. 这几篇文章要好好读下——[jQuery最佳实践](http://www.ruanyifeng.com/blog/2011/08/jquery_best_practices.html)、[Coding Standards & Best Practices](http://lab.abhinayrathore.com/jquery-standards/)
+1. jQuery事件绑定:优先使用on/off绑定或者解除绑定事件，因为从jQuery 1.7以后.bind(), .delegate() 都是调用 on 的, live和die已经废弃了；
+1. HTML DOM节点上原则上不允许有内嵌的style，样式要尽可能抽出来共用。有些样式定义可以成为全局的，比如字体颜色、大小之类的；有些样式不能公用则应当给相应的页面一个class命名空间，任何针对这个页面的样式都应该在这个命名空间下面定义，这样不至于影响到其他页面。
 1. 公共的js第三方类库放在static/js/common/lib下，jQuery相关类库放在static/js/common/lib/jQplugin下，我们自己开发的公共类库放在static/js/common下
 1. 鉴于有很多代码是复制粘贴过来的，所以大家要保证自己的代码风格良好且易于阅读，不然别人拷过去后不好的风格就蔓延开了，而且会导致其他人效仿。
 1. 对于复制粘贴然后做相应修改以实现功能的代码，请务必清理干净，不要有'忘了删除的不影响逻辑的代码'，同时记得将变量名改成适合当前业务场景的有意义的变量名, 不要因为不影响逻辑就保留原来的不适合当前场景的名字
