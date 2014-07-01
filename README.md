@@ -60,7 +60,7 @@
 1. 类似地，在解决问题的时候要考虑下其他地方会不会存在同样的问题？能不能统一解决掉？尤其对于类似ExtJs的Bug这种，能不能做最少的改动解决所有同样的问题,类似于全局补丁.
 1. 代码风格跟其他JS文件的代码风格保持一致
 1. 代码提交前用JSHint检查一下，可以通过 grunt check 命令来执行检查，grunt具体配置可以参考[文档](http://pha.hzdiv.qizhitech.com/w/guides/grunt_build/)
-1. 减少不必要的代码嵌套, 如下代码：
+1. 另外补充一点：减少不必要的代码嵌套, 比如下代码：
 ```javascript
   function(){
     if(condition){
