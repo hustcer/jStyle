@@ -42,25 +42,25 @@
 1. for循环遍历：for(var i = 0, l = arr.length; i < l; i++){// doSomething here } 采用这种方式而不是 i < arr.length, 前一种方式只会计算一次 arr 的长度，而后一种方式会计算数组长度 arr.length + 1 次，效率比较低
 1. 字符串转换为整数，推荐使用 parseInt(num, 10) 这种方式，+num 写法简单，在操作次数极少的情况下也可以酌情使用。
 1. 减少不必要的代码嵌套, 如下代码：
-```javascript
-function(){
-  if(condition){
-    // Block A: Do something here
-  }else{
+  ```javascript
+  function(){
+    if(condition){
+      // Block A: Do something here
+    }else{
+      // Block B: A lot of things to do here
+    }
+  }
+  ```
+  可以考虑改成如下形式, 将相对简单的逻辑放在if块里面，执行完毕后返回，复杂的逻辑放在外面：
+  ```javascript
+  function(){
+    if(condition){
+      // Block A: Do something here
+      return false;
+    }
     // Block B: A lot of things to do here
   }
-}
-```
-可以考虑改成如下形式, 将相对简单的逻辑放在if块里面，执行完毕后返回，复杂的逻辑放在外面：
-```javascript
-function(){
-  if(condition){
-    // Block A: Do something here
-    return false;
-  }
-  // Block B: A lot of things to do here
-}
-```
+  ```
 1. 变量比较的时候总是判断最好、最精确的值，推荐使用'==='少用'=='(可以参考[jQuery](https://github.com/jquery/jquery/blob/master/src/core.js)代码里面, 可以看到只有在'== null'的时候才可能使用'=='，其他情况一律使用的是'===').
 1. JS里变量命名规范使用 functionNamesLikeThis, variableNamesLikeThis, ClassNamesLikeThis, EnumNamesLikeThis, methodNamesLikeThis, 和 SYMBOLIC_CONSTANTS_LIKE_THIS, 尤其不要跟python里面的变量命名方式混淆了.
 1. JS模块里面私有的方法前面可以加'_',公有方法不加，但是函数内的局部变量就没必要加'_'了；
