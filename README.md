@@ -26,28 +26,28 @@
 #### 项目规范
 
 1. JS/CSS 文件编码统一采用 UTF8编码
-1. 代码缩进使用4个空格缩进替代 tab 缩进
+1. 代码缩进使用4个空格缩进替代 `tab` 缩进
 1. 一行代码长度尽量保持80列左右
 1. 如果编辑器支持在文件保存的时候自动删除行末和空行中的空格(注意:要么全部采用，要么全不采用，否则会产生过多的diff信息)
 1. JS/CSS 最终发布到产品中的时候需要被压缩，以减小静态资源文件大小，提升页面加载速度
-1. JS里声明变量必须加上 var 关键字，推荐一个 var 同时声明多个变量，或者一组有逻辑关系的变量，避免一个变量一个 var.
-1. 使用 Array 和 Object 语法直接声明并将其初始化,更易读且性能更好, 而不使用 Array 和 Object 构造器.
-1. JS里使用单引号 (') 优于双引号 (").
+1. JS里声明变量必须加上 `var` 关键字，推荐一个 `var` 同时声明多个变量，或者一组有逻辑关系的变量，避免一个变量一个 `var`.
+1. 使用 `Array` 和 `Object` 语法直接声明并将其初始化,更易读且性能更好, 而不使用 `Array` 和 `Object` 构造器.
+1. JS里使用单引号 (`'`) 优于双引号 (`"`).
 1. JS代码结尾统一约定加';'
-1. JSON对象的最后一个字段、数组最后一个元素后面都不能加',',在IE8下会报错：所以{a:1,b:2,}/[1,2,] 都是不对的.
-1. 没有特殊原因避免使用 with/eval
-1. 对于if/else等后面的语句即使只有一行代码也需要在该行代码的首尾加上'{}'. 对于switch语句要给出'default:'情况的处理逻辑.
-1. 字符串拼接在少量(次数为个位数)的情况下可以使用'+', 大量的时候使用数组 join(), 或者尽可能采用模板引擎渲染：比如jsRender等, 如果是Extjs可以采用XTemplate.
-1. for循环遍历：for(var i = 0, l = arr.length; i < l; i++){// doSomething here } 采用这种方式而不是 i < arr.length, 前一种方式只会计算一次 arr 的长度，而后一种方式会计算数组长度 arr.length + 1 次，效率比较低
-1. 字符串转换为整数，推荐使用 parseInt(num, 10) 这种方式，+num 写法简单，在操作次数极少的情况下也可以酌情使用。
-1. 变量比较的时候总是判断最好、最精确的值，推荐使用'==='少用'=='(可以参考[jQuery](https://github.com/jquery/jquery/blob/master/src/core.js)代码里面, 可以看到只有在'== null'的时候才可能使用'=='，其他情况一律使用的是'===').
-1. JS里变量命名规范使用 functionNamesLikeThis, variableNamesLikeThis, ClassNamesLikeThis, EnumNamesLikeThis, methodNamesLikeThis, 和 SYMBOLIC_CONSTANTS_LIKE_THIS, 尤其不要跟python里面的变量命名方式混淆了.
+1. JSON对象的最后一个字段、数组最后一个元素后面都不能加',',在IE8下会报错：所以`{a:1,b:2,}/[1,2,]` 都是不对的.
+1. 没有特殊原因避免使用 `with`/`eval`
+1. 对于`if`/`else`等后面的语句即使只有一行代码也需要在该行代码的首尾加上'{}'. 对于`switch`语句要给出`default:`情况的处理逻辑.
+1. 字符串拼接在少量(次数为个位数)的情况下可以使用'+', 大量的时候使用数组 `join()`, 或者尽可能采用模板引擎渲染：比如`jsRender`等, 如果是`Extjs`可以采用`XTemplate`.
+1. `for`循环遍历：`for(var i = 0, l = arr.length; i < l; i++){// doSomething here }` 采用这种方式而不是 `i < arr.length`, 前一种方式只会计算一次 `arr` 的长度，而后一种方式会计算数组长度 `arr.length + 1` 次，效率比较低
+1. 字符串转换为整数，推荐使用 `parseInt(num, 10)` 这种方式，`+num` 写法简单，在操作次数极少的情况下也可以酌情使用。
+1. 变量比较的时候总是判断最好、最精确的值，推荐使用`===`少用`==`(可以参考[jQuery](https://github.com/jquery/jquery/blob/master/src/core.js)代码里面, 可以看到只有在`== null`的时候才可能使用`==`，其他情况一律使用的是`===`).
+1. JS里变量命名规范使用 `functionNamesLikeThis`, `variableNamesLikeThis`, `ClassNamesLikeThis`, `EnumNamesLikeThis`, `methodNamesLikeThis`, 和 `SYMBOLIC_CONSTANTS_LIKE_THIS`, 尤其不要跟`python`里面的变量命名方式混淆了.
 1. JS模块里面私有的方法前面可以加`_`,公有方法不加，但是函数内的局部变量就没必要加`_`了；
-1. JS文件名应该使用小写字符, 以避免在有些系统平台上不识别大小写的命名方式. 文件名以.js结尾, 不要包含除 `-` 和 `_` 外的标点符号(使用 `-` 优于 `_`), 我们约定统一使用js-file-name.js这种类型，对于template文件命名方式为 template_name.html形式.
-1. 所有的html DOM里面的id, Extjs配置项里面的id 以及所有样式里面的 class命名使用中划线，如'id-name'/'class-name'.
-1. 代表jQuery对象的变量前面可以加个'$',这样一眼就能看出来是个jQuery对象。
+1. JS文件名应该使用小写字符, 以避免在有些系统平台上不识别大小写的命名方式. 文件名以.js结尾, 不要包含除 `-` 和 `_` 外的标点符号(使用 `-` 优于 `_`), 我们约定统一使用`js-file-name.js`这种类型，对于`template`文件命名方式为 `template_name.html`形式.
+1. 所有的html DOM里面的id, Extjs配置项里面的id 以及所有样式里面的 class命名使用中划线，如`id-name`/`class-name`.
+1. 代表jQuery对象的变量前面可以加个`$`,这样一眼就能看出来是个jQuery对象。
 1. 这几篇文章要好好读下——[jQuery最佳实践](http://www.ruanyifeng.com/blog/2011/08/jquery_best_practices.html)、[Coding Standards & Best Practices](http://lab.abhinayrathore.com/jquery-standards/)
-1. jQuery事件绑定:优先使用on/off绑定或者解除绑定事件，因为从jQuery 1.7以后.bind(), .delegate() 都是调用 on 的, live和die已经废弃了；
+1. jQuery事件绑定:优先使用`on`/`off`绑定或者解除绑定事件，因为从jQuery 1.7以后`.bind()`, `.delegate()` 都是调用 `on` 的, `live`和`die`已经废弃了；
 1. HTML DOM节点上原则上不允许有内嵌的style，样式要尽可能抽出来共用。有些样式定义可以成为全局的，比如字体颜色、大小之类的；有些样式不能公用则应当给相应的页面一个class命名空间，任何针对这个页面的样式都应该在这个命名空间下面定义，这样不至于影响到其他页面。
 1. 公共的js第三方类库放在static/js/common/lib下，jQuery相关类库放在static/js/common/lib/jQplugin下，我们自己开发的公共类库放在static/js/common下
 1. 鉴于有很多代码是复制粘贴过来的，所以大家要保证自己的代码风格良好且易于阅读，不然别人拷过去后不好的风格就蔓延开了，而且会导致其他人效仿。
@@ -58,7 +58,7 @@
 1. 在开发相应功能的时候尽量抽象化、组件化、通用化：考虑这个东西其他地方会不会用到，能不能做成一个组件？而不是类似的代码到处复制、修改或者让大家都去写一遍
 1. 类似地，在解决问题的时候要考虑下其他地方会不会存在同样的问题？能不能统一解决掉？尤其对于类似ExtJs的Bug这种，能不能做最少的改动解决所有同样的问题,类似于全局补丁.
 1. 代码风格跟其他JS文件的代码风格保持一致;
-1. 代码提交前用JSHint或者ESlint检查一下;
+1. 代码提交前用`JSHint`或者`ESlint`检查一下;
 1. 另外补充一点：减少不必要的代码嵌套, 比如以下代码：
 ```javascript
   function(){
@@ -92,7 +92,7 @@
 
 ##### 空白
 
-  - 永远都不要混用空格和Tab。
+  - 永远都不要混用空格和Tab。
   - 开始一个项目，在写代码之前，选择软缩进（空格）或者 Tab（作为缩进方式），并将其作为**最高准则**。
       - 为了可读, 我总是推荐在你的编辑中设计4个字母宽度的缩进 &mdash; 这等同于四个空格或者四个空格替代一个 Tab。
   - 如果你的编辑器支持，请总是打开 “显示不可见字符” 这个设置。好处是：
