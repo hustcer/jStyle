@@ -7,6 +7,7 @@
 
 #### 参考规范
 
+* [airbnb/javascript](https://github.com/airbnb/javascript)
 * [ECMAScript 5.1 注解版](http://es5.github.com/)
 * [EcmaScript 语言规范, 5.1 版](http://ecma-international.org/ecma-262/5.1/)
 
