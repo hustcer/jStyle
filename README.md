@@ -5,11 +5,9 @@
 * [Google JavaScript 编码规范指南](http://alloyteam.github.io/JX/doc/specification/google-javascript.xml)
 * [Idiomatic 风格](https://github.com/rwldrn/idiomatic.js/tree/master/translations/zh_CN)
 
-#### 参考规范
+#### 对于未提及的事项可以参考`airbnb`的JS编码规范
 
 * [airbnb/javascript](https://github.com/airbnb/javascript)
-* [ECMAScript 5.1 注解版](http://es5.github.com/)
-* [EcmaScript 语言规范, 5.1 版](http://ecma-international.org/ecma-262/5.1/)
 
 #### 基本原则: 无论有多少人在维护，所有在代码仓库中的代码理应看起来像同一个人写的。
 
@@ -34,8 +32,8 @@
 1. JS里声明变量必须加上 `var` 关键字，如果项目支持ES5/6则优先使用`const`和`let`并将所有的`const`和`let`变量放在一起，推荐一条语句声明一个变量；
 1. 使用 `Array` 和 `Object` 语法直接声明并将其初始化,更易读且性能更好, 而不使用 `Array` 和 `Object` 构造器；
 1. JS里使用单引号 (`'`) 优于双引号 (`"`)；
-1. JS代码结尾统一约定加';'；
-1. JSON对象的最后一个字段、数组最后一个元素后面都不能加',',在IE8下会报错：所以`{a:1,b:2,}/[1,2,]` 都是不对的. 但是如果项目支持ES5/6，则推荐在最后一个元素后面加`,`，参考 `airbnb/javascript` 规范；
+1. JS代码结尾统一约定加';' ；
+1. JSON对象的最后一个字段、数组最后一个元素后面都不能加',',在IE8下会报错：所以`{a:1,b:2,}/[1,2,]` 都是不对的. 但是如果项目支持ES5/6，则推荐在最后一个元素后面加`","`，参考 `airbnb/javascript` 规范；
 1. 没有特殊原因避免使用 `with`/`eval`；
 1. 对于`if`/`else`等后面的语句即使只有一行代码也需要在该行代码的首尾加上'{}'. 对于`switch`语句要给出`default:`情况的处理逻辑；
 1. 字符串拼接在少量(次数为个位数)的情况下可以使用'+', 大量的时候使用数组 `join()`, 或者尽可能采用模板引擎渲染. 如果项目支持ES5/6推荐使用模板字符串；
@@ -43,8 +41,10 @@
 1. 字符串转换为整数，推荐使用 `parseInt(num, 10)` 或`Number(inputValue)`这种方式，`+num` 写法简单，在操作次数极少的情况下也可以酌情使用。
 1. 变量比较的时候总是判断最好、最精确的值，推荐使用`===`少用`==`(可以参考[jQuery](https://github.com/jquery/jquery/blob/master/src/core.js)代码里面, 可以看到只有在`== null`的时候才可能使用`==`，其他情况一律使用的是`===`).
 1. JS里变量命名规范使用 `functionNamesLikeThis`, `variableNamesLikeThis`, `ClassNamesLikeThis`, `EnumNamesLikeThis`, `methodNamesLikeThis`, 和 `SYMBOLIC_CONSTANTS_LIKE_THIS`, 尤其不要跟`python`里面的变量命名方式混淆了.
+1. 不要使用魔法数字，尽量定义一个常量来表示该数字，并加上相应的注释，否则后期可能出现因为数字变化而导致牵一发而动全身，需要到处修改，增加维护成本；
 1. JS文件名应该使用小写字符, 不要包含除 `-` 和 `_` 外的标点符号(使用 `-` 优于 `_`), 我们约定统一使用`js-file-name.js`这种类型，或者跟模块里面默认`export`的名称相同；
 1. 所有的html DOM里面的id, 以及所有样式里面的 class命名使用中划线，如`id-name`/`class-name`；
+1. 注释尽量采用jsdoc的代码注释风格，普通业务代码不做要求，不过通用js类库要求尽量详尽以方便其他人阅读使用；
 1. 代表jQuery对象的变量前面可以加个`$`,这样一眼就能看出来是个jQuery对象。
 1. 这几篇文章要好好读下——[jQuery最佳实践](http://www.ruanyifeng.com/blog/2011/08/jquery_best_practices.html)、[Coding Standards & Best Practices](http://lab.abhinayrathore.com/jquery-standards/)
 1. jQuery事件绑定:优先使用`on`/`off`绑定或者解除绑定事件，因为从jQuery 1.7以后`.bind()`, `.delegate()` 都是调用 `on` 的, `live`和`die`已经废弃了；
@@ -53,8 +53,6 @@
 1. 鉴于有很多代码是复制粘贴过来的，所以大家要保证自己的代码风格良好且易于阅读，不然别人拷过去后不好的风格就蔓延开了，而且会导致其他人效仿；
 1. 对于复制粘贴然后做相应修改以实现功能的代码，请务必清理干净，不要有'忘了删除的不影响逻辑的代码'，同时记得将变量名改成适合当前业务场景的有意义的变量名, 不要因为不影响逻辑就保留原来的不适合当前场景的名字；
 1. 对于系统中出现的大段注释的、过时的、废弃的代码务必及时清理干净，谁制造谁清理，否则其他人也不敢清理，越积越多；
-1. 不要使用魔法数字，尽量定义一个常量来表示该数字，并加上相应的注释，否则后期可能出现因为数字变化而导致牵一发而动全身，需要到处修改，增加维护成本；
-1. 注释尽量采用jsdoc的代码注释风格，普通业务代码不做要求，不过通用js类库要求尽量详尽以方便其他人阅读使用；
 1. 在开发相应功能的时候尽量抽象化、组件化、通用化：考虑这个东西其他地方会不会用到，能不能做成一个组件？而不是类似的代码到处复制、修改或者让大家都去写一遍；
 1. 类似地，在解决问题的时候要考虑下其他地方会不会存在同样的问题？能不能统一解决掉？尤其对于类似ExtJs的Bug这种，能不能做最少的改动解决所有同样的问题,类似于全局补丁？；
 1. 代码风格跟其他JS文件的代码风格保持一致;
