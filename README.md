@@ -40,7 +40,6 @@
 1. 对于`if`/`else`等后面的语句即使只有一行代码也需要在该行代码的首尾加上'{}'. 对于`switch`语句要给出`default:`情况的处理逻辑；
 1. 字符串拼接在少量(次数为个位数)的情况下可以使用'+', 大量的时候使用数组 `join()`, 或者尽可能采用模板引擎渲染. 如果项目支持ES5/6推荐使用模板字符串；
 1. `for`循环遍历：`for(var i = 0, l = arr.length; i < l; i++){// doSomething here }` 采用这种方式而不是 `i < arr.length`, 前一种方式只会计算一次 `arr` 的长度，而后一种方式会计算数组长度 `arr.length + 1` 次，效率比较低；
-1. 对于数组尽可能使用：forEach() / map() / every() / filter() / find() / findIndex() / reduce() / some() / ... 来遍历, 通过 Object.keys() / Object.values() / Object.entries() 来将对象转换为数组以采用上述遍历；
 1. 字符串转换为整数，推荐使用 `parseInt(num, 10)` 或`Number(inputValue)`这种方式，`+num` 写法简单，在操作次数极少的情况下也可以酌情使用。
 1. 变量比较的时候总是判断最好、最精确的值，推荐使用`===`少用`==`(可以参考[jQuery](https://github.com/jquery/jquery/blob/master/src/core.js)代码里面, 可以看到只有在`== null`的时候才可能使用`==`，其他情况一律使用的是`===`).
 1. JS里变量命名规范使用 `functionNamesLikeThis`, `variableNamesLikeThis`, `ClassNamesLikeThis`, `EnumNamesLikeThis`, `methodNamesLikeThis`, 和 `SYMBOLIC_CONSTANTS_LIKE_THIS`, 尤其不要跟`python`里面的变量命名方式混淆了.
@@ -87,6 +86,7 @@
 1. 字符串拼接推荐使用模板字符串；
 1. 对象定义时，其中的属性和方法推荐优先使用简写方式；其中简写的属性放在对象的头部；
 1. 对象或数组的浅拷贝推荐使用扩展运算符（`...`)；
+1. 对于数组尽可能使用：forEach() / map() / every() / filter() / find() / findIndex() / reduce() / some() / ... 来遍历, 通过 Object.keys() / Object.values() / Object.entries() 来将对象转换为数组以采用上述遍历；
 1. 如有必要函数定义的时候可以指定默认参数而不是之后在函数体中修改参数，同时默认参数放在函数签名的后面；
 1. 函数定义或调用时如果参数较多需要换行可以考虑每个参数一行，并且在最后一个参数后面加`','`；
 1. 对于需要使用匿名函数的场景优先考虑箭头函数；
