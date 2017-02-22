@@ -42,7 +42,7 @@
 1. `for`循环遍历：`for(var i = 0, l = arr.length; i < l; i++){// doSomething here }` 采用这种方式而不是 `i < arr.length`, 前一种方式只会计算一次 `arr` 的长度，而后一种方式会计算数组长度 `arr.length + 1` 次，效率比较低；
 1. 字符串转换为整数，推荐使用 `parseInt(num, 10)` 或`Number(inputValue)`这种方式，`+num` 写法简单，在操作次数极少的情况下也可以酌情使用。
 1. 变量比较的时候总是判断最好、最精确的值，推荐使用`===`少用`==`(可以参考[jQuery](https://github.com/jquery/jquery/blob/master/src/core.js)代码里面, 可以看到只有在`== null`的时候才可能使用`==`，其他情况一律使用的是`===`).
-1. JS里变量命名规范使用 `functionNamesLikeThis`, `variableNamesLikeThis`, `ClassNamesLikeThis`, `EnumNamesLikeThis`, `methodNamesLikeThis`, 和 `SYMBOLIC_CONSTANTS_LIKE_THIS`, 尤其不要跟`python`里面的变量命名方式混淆了.
+1. JS里变量命名规范使用 `functionNamesLikeThis`, `variableNamesLikeThis`, `ClassNamesLikeThis`, `EnumNamesLikeThis`, `methodNamesLikeThis`, 和 `SYMBOLIC_CONSTANTS_LIKE_THIS`, 尤其不要跟`python`里面的变量命名方式混淆了; const 常量命名如果是在文件头部定义的针对整个文件的可以全部大写，如果是在函数或者代码块级别定义的可以采用驼峰式命名；
 1. 不要使用魔法数字，尽量定义一个常量来表示该数字，并加上相应的注释，否则后期可能出现因为数字变化而导致牵一发而动全身，需要到处修改，增加维护成本；
 1. JS文件名应该使用小写字符, 不要包含除 `-` 和 `_` 外的标点符号(使用 `-` 优于 `_`), 我们约定统一使用`js-file-name.js`这种类型，或者跟模块里面默认`export`的名称相同；
 1. 所有的html DOM里面的id, 以及所有样式里面的 class命名使用中划线，如`id-name`/`class-name`；
